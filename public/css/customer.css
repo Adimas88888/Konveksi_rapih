@@ -1,0 +1,142 @@
+* {
+    font-family: 'Poppins', sans-serif;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+main {
+    background-color: rgb(223, 217, 217);
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.text-links {
+    cursor: pointer;
+}
+
+.links-login {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #35155D;
+    padding: 10px;
+    width: 200px;
+    z-index: 9999;
+    border-radius: 10px;
+    visibility: hidden;
+}
+
+.activeLogin {
+    visibility: visible;
+    opacity: 1;
+}
+
+.links-login>a:hover {
+    color: #fa9191;
+}
+
+.links-login>a {
+    color: #fff;
+}
+
+
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    top: 1px;
+    left: 18px;
+    width: 15px;
+    height: 17px;
+    text-align: center;
+
+}
+
+.notif {
+    position: relative;
+    display: inline-block;
+}
+
+.fa-bag-shopping {
+    font-size: 24px;
+    color: rgba(217, 220, 223, 0.849);
+
+}
+
+.fa-money-check-alt {
+    font-size: 24px;
+    color: rgba(217, 220, 223, 0.849);
+
+
+}
+
+.fa-money-check-alt:hover {
+    color: rgba(255, 255, 255, 0.849);
+
+}
+
+.fa-bag-shopping:hover {
+    color: rgba(255, 255, 255, 0.849);
+}
+
+
+section {
+    min-height: 80vh;
+}
+
+/* style footer */
+footer {
+    position: static;
+    bottom: 0;
+    background-color: #35155D;
+    color: white;
+}
+
+/* sidebar */
+.sidebar {
+    position: fixed;
+    width: 250px;
+    height: 97vh;
+}
+
+
+.sidebar a {
+    text-decoration: none;
+    color: white;
+}
+
+.sidebar li {
+    list-style: none;
+    padding: 10px 5px;
+}
+
+.sidebar li:hover {
+    background-color: rgb(217, 220, 223);
+    border-radius: 10px;
+    margin: 0
+}
+
+.sidebar h5 {
+    font-size: 24px;
+    font-weight: 800;
+    color: white;
+    text-align: center;
+}
+
+.enlarge-image {
+    width: 100%;
+    /* Ukuran awal gambar */
+    height: 150px;
+    object-fit: cover;
+    padding: 0;
+    transition: transform 0.3s ease-in-out;
+}
+
+.enlarge-image.enlarge {
+    transform: scale(1.5);
+    /* Sesuaikan ukuran yang diinginkan saat gambar diperbesar */
+}
