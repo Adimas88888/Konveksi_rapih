@@ -115,6 +115,8 @@ class Controller extends BaseController
             ->get()
         : [];
 
+        info($all_trx);
+
         return view('pelanggan.page.keranjang', [
             'name' => 'Payment',
             'title' => 'Payment Process',
