@@ -65,7 +65,7 @@ class Controller extends BaseController
 
     public function product()
     {
-        $Product = product::paginate(6);
+        $Product = product::orderBy('created_at', 'desc')->paginate(6);
 
         return view('admin.page.product', [
             'product' => $Product,

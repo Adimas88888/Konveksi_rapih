@@ -60,12 +60,15 @@
                 </a>
             </li>
             <li class="navbar-item rounded {{ Request::path() === 'admin' ? 'bg-info' : '' }}">
-                <a href="logout" class="nav-link">
-                    <div class="d-flex gap-3">
-                        <span class="material-icons"> logout</span>
-                        <p class="m-0 p-0">logout</p>
-                    </div>
-                </a>
+                <form action="{{ route('logout') }}" id="form-logout" method="POST">
+                    @csrf
+                    <button type="submit" class="nav-link" onclick="$('#logout-form').submit();">
+                        <div class="d-flex gap-3">
+                            <span class="material-icons"> logout</span>
+                            <p class="m-0 p-0">logout</p>
+                        </div>
+                    </button>
+                </form>
             </li>
         </ul>
     </div>

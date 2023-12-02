@@ -34,7 +34,7 @@
             <h1 class="mt-5">KONVEKSI RAPIH</h1>
         </center>
         <div class="card p-4 mt-5 m-auto" style="width: 30vw;">
-            <form action="{{ route('reset-password.submit') }}" method="POST">
+            <form action="{{ route('password.email') }}" method="POST">
                 @csrf
                 <div class="card-body">
                     <div class="mb-3 row">
@@ -42,12 +42,7 @@
                         <div class="col-sm-7">
                             <input type="email" class=" p-2 form-control-plaintext" id="email" name="email"
                                 value="" autocomplete="off" autofocus>
-                        </div>
-                    </div>
-                    <div class="mb-3 row">
-                        <label for="new_password" class="col-sm-5 col-form-label">New Password</label>
-                        <div class="col-sm-7">
-                            <input type="password" class="form-control" id="new_password" name="new_password">
+                                {{ $errors }}
                         </div>
                     </div>
                 </div>

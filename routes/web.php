@@ -1,17 +1,16 @@
 <?php
 
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\ExpensesSummaryController;
 use App\Http\Controllers\IncomeSummaryController;
+use App\Http\Controllers\OngkirController;
+use App\Http\Controllers\productController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ResetPasswordController;
-use App\Http\Controllers\OngkirController;
 use App\Http\Controllers\TransaksiController;
-use Illuminate\Auth\Notifications\ResetPassword;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\productController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,11 +22,6 @@ use App\Http\Controllers\UserController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-
-
-
-
 
 Route::group(['middleware' => 'member'], function () {
     Route::get('/', [Controller::class, 'index'])->name('Home');
@@ -42,8 +36,8 @@ Route::group(['middleware' => 'member'], function () {
     Route::get('/cek-ongkir/provinsi', [OngkirController::class, 'provinces'])->name('rajaongkir.provinsi');
     Route::get('/cek-ongkir/kota', [OngkirController::class, 'cities'])->name('rajaongkir.kota');
     Route::get('/cek-ongkir/ongkos', [OngkirController::class, 'cost'])->name('rajaongkir.cost');
-   
-    Route::get('/transaksi', [ TransaksiController::class, 'transaksi'])->name('transaksi');
+
+    Route::get('/transaksi', [TransaksiController::class, 'transaksi'])->name('transaksi');
     Route::POST('/addTocart', [TransaksiController::class, 'addTocart'])->name('addTocart');
     Route::DELETE('/delete/detailtransaksi/{id}', [TransaksiController::class, 'deleteDataDetail'])->name('deleteDataDetail');
 
@@ -54,18 +48,13 @@ Route::group(['middleware' => 'member'], function () {
 
 });
 
-
 // routes/web.php
 
-
-Route::get('admin/reset-password', [ResetPasswordController::class, 'reset'])->name('reset-password');
-Route::post('admin/reset-password', [ResetPasswordController::class, 'resetPassword'])->name('reset-password.submit');
-Route::get('/admin', [Controller::class, 'login'])->name('login');
-Route::POST('/admin/loginProses', [Controller::class, 'loginProses'])->name('loginProses');
-Route::get('/admin/logout', [Controller::class, 'logout'])->name('logout');
-Route::group(['middleware' => 'admin'], function () {
-    
-  
+// Route::get('admin/reset-password', [ResetPasswordController::class, 'reset'])->name('reset-password');
+// Route::post('admin/reset-password', [ResetPasswordController::class, 'resetPassword'])->name('reset-password.submit');
+// Route::POST('/admin/loginProses', [Controller::class, 'loginProses'])->name('loginProses');
+// Route::get('/admin/logout', [Controller::class, 'logout'])->name('logout');
+Route::group(['middleware' => 'auth'], function () {
     Route::get('/admin/incomesummary', [IncomeSummaryController::class, 'incomesummary'])->name('incomesummary');
     Route::get('/admin/expensessummary', [ExpensesSummaryController::class, 'expensessummary'])->name('expensessummary');
 
@@ -73,8 +62,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/admin/user_management', [Controller::class, 'userManagement'])->name('user_management');
     Route::get('/admin/product', [Controller::class, 'product'])->name('product');
     Route::get('/admin/report', [Controller::class, 'report'])->name('report');
- 
-    
+
     Route::get('/admin/chart', [UserController::class, 'chart'])->name('chart');
     Route::get('/admin/chart2', [UserController::class, 'chart2'])->name('chart2');
 
@@ -90,12 +78,12 @@ Route::group(['middleware' => 'admin'], function () {
     Route::PUT('/admin/updateData/{id}', [productController::class, 'update'])->name('updateData');
     Route::DELETE('/admin/deleteData/{id}', [productController::class, 'destroy'])->name('deleteData');
 
-
     Route::get('/filter-data', [productController::class, 'filterData'])->name('filterData');
     Route::get('/filter-data2', [UserController::class, 'filterData2'])->name('filterData2');
     Route::post('/filter-data3', [ReportController::class, 'filterData3'])->name('filterData3');
     Route::DELETE('/admin/deleteTransaksi/{id}', [ReportController::class, 'destroy'])->name('deleteTransaksi');
     Route::get('admin/download-pdf', [ReportController::class, 'downloadPDF']);
     Route::get('admin/view-pdf', [ReportController::class, 'viewPDF']);
-
 });
+
+require __DIR__.'/auth.php';

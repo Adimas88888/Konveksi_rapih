@@ -37,9 +37,10 @@
                     </div>
                 @else
                     <li class="nav-item">
-                        <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal">
-                            Login | Register</button>
+                        <a href="{{ route('login') }}" class="btn btn-success">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('register') }}" class="btn btn-success">Register</a>
                     </li>
                 @endauth
                 <li class="nav-item">
