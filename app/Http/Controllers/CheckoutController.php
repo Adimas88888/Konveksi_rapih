@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\modelDetailTransaksi;
 use App\Models\keranjangs;
+use App\Models\modelDetailTransaksi;
 use App\Models\product;
 use App\Models\transaksi;
+use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
-
 
 class CheckoutController extends Controller
 {
@@ -17,10 +16,11 @@ class CheckoutController extends Controller
 
         $countKeranjang = auth()->user() ? keranjangs::where('idUser', auth()->user()->id)->where('status', 0)->count() : 0;
         $code = transaksi::count();
-        $codeTransaksi = date('Ymd') . $code + 1;
+        $codeTransaksi = date('Ymd').$code + 1;
         $detailBelanja = modelDetailTransaksi::where(['id_transaksi' => $codeTransaksi, 'status' => 0])->sum('price');
         $JumlahBarang = modelDetailTransaksi::where(['id_transaksi' => $codeTransaksi, 'status' => 0])->count();
         $qtyBarang = modelDetailTransaksi::where(['id_transaksi' => $codeTransaksi, 'status' => 0])->sum('qty');
+
         return view('pelanggan.page.checkout', [
             'title' => 'Check Out',
             'count' => $countKeranjang,
@@ -30,11 +30,12 @@ class CheckoutController extends Controller
             'codeTransaksi' => $codeTransaksi,
         ]);
     }
+
     public function prosesCheckout(Request $request, $id)
     {
         $data = $request->all();
         $code = transaksi::count();
-        $codeTransaksi = date('Ymd') . $code + 1;
+        $codeTransaksi = date('Ymd').$code + 1;
 
         $detailtransaksi = new modelDetailTransaksi();
         $filedDetail = [
@@ -52,6 +53,7 @@ class CheckoutController extends Controller
         keranjangs::where('id', $id)->update($filedCart);
 
         Alert::toast('Checkout Berhasil', 'success');
+
         return redirect()->route('checkout');
 
     }
@@ -86,6 +88,7 @@ class CheckoutController extends Controller
         }
 
         Alert::alert()->success('Berhasil disimpan', 'Lanjut pembayaran');
+
         return redirect()->route('Home');
 
     }
@@ -102,19 +105,20 @@ class CheckoutController extends Controller
         // Set 3DS transaction for credit card to true
         \Midtrans\Config::$is3ds = true;
 
-        $params = array(
-            'transaction_details' => array(
+        $params = [
+            'transaction_details' => [
                 'order_id' => $find_data->code_transaksi,
                 'gross_amount' => $find_data->total_harga,
-            ),
-            'customer_details' => array(
+            ],
+            'customer_details' => [
                 'first_name' => 'Mr',
                 'last_name' => $find_data->nama_customer,
                 'phone' => $find_data->no_tlp,
-            ),
-        );
+            ],
+        ];
 
         $snapToken = \Midtrans\Snap::getSnapToken($params);
+
         return view('pelanggan.page.detailTransaksi', [
             'name' => 'Detail Transaksi',
             'title' => 'Detail Transaksi',
@@ -124,4 +128,13 @@ class CheckoutController extends Controller
         ]);
     }
 
+    public function suksesBayar(Request $request)
+    {
+        if ($request->transaction_status == 'settlement') {
+            $validatedTransaction = transaksi::where('code_transaksi', $request->order_id)->first();
+            $validatedTransaction->update([
+                'status' => 'paid',
+            ]);
+        }
+    }
 }
