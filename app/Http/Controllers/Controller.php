@@ -109,8 +109,9 @@ class Controller extends BaseController
         ? transaksi::where('user_id', auth()->user()->id)
             ->where(function ($query) {
                 $query->where('status', 'unpaid')
-                    ->where('created_at', '>=', now());
+                    ->where('created_at', '>=', now()->subDay()); // Filter 'unpaid' for the last 24 hours
             })
+            ->orWhere('status', 'paid') // Retrieve all 'paid' records
             ->get()
         : [];
 
