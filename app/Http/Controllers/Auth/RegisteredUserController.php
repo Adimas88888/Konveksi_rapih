@@ -30,22 +30,43 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+        try {
+            $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'tlp' => ['required', 'string', 'max:255'],
+                'alamat' => ['required', 'string', 'max:255'],
+                'tgl_lahir' => ['required', 'date'],
+                'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+                'foto' => ['required', 'image', 'max:10240'],
+                'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        event(new Registered($user));
-
-        Auth::login($user);
-
-        return redirect(RouteServiceProvider::HOME);
+            if ($request->hasFile('foto')) {
+                $photo = $request->file('foto');
+                $filename = date('Ymd') . '_' . $photo->getClientOriginalName();
+                $photo->move(public_path('storage/user'), $filename);
+                $request->foto = $filename;
+            }
+    
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'tlp' => $request->tlp,
+                'alamat' => $request->alamat,
+                'tgl_lahir' => $request->tgl_lahir,
+                'foto' => $request->foto,
+                'password' => Hash::make($request->password),
+                'is_admin' => 0,
+                'is_mamber' => 1,
+            ]);
+    
+            event(new Registered($user));
+    
+            Auth::login($user);
+    
+        } catch (\Throwable $th) {
+            info($th);
+        }
+        return redirect('/');
     }
 }

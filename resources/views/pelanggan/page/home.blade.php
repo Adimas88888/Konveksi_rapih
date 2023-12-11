@@ -41,63 +41,68 @@
                             <form action="{{ route('addTocart') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="product_id" value="{{ $b->id }}">
-                                <button type="submit" class="btn btn-outline" style="font-size: 24px; --bs-btn-color: #35155C; --bs-btn-border-color: #35155D; --bs-btn-hover-color: #fff; --bs-btn-hover-bg: #35155D; --bs-btn-hover-border-color: #35155D; --bs-btn-focus-shadow-rgb: 13,110,253; --bs-btn-active-color: #fff; --bs-btn-active-bg: #351552; --bs-btn-active-border-color: #35155D; --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125); --bs-btn-disabled-color: #35155D; --bs-btn-disabled-bg: transparent; --bs-btn-disabled-border-color: #35155D; --bs-gradient: none;">
+                                <button type="submit" class="btn btn-outline"
+                                    style="font-size: 24px; --bs-btn-color: #35155C; --bs-btn-border-color: #35155D; --bs-btn-hover-color: #fff; --bs-btn-hover-bg: #35155D; --bs-btn-hover-border-color: #35155D; --bs-btn-focus-shadow-rgb: 13,110,253; --bs-btn-active-color: #fff; --bs-btn-active-bg: #351552; --bs-btn-active-border-color: #35155D; --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125); --bs-btn-disabled-color: #35155D; --bs-btn-disabled-bg: transparent; --bs-btn-disabled-border-color: #35155D; --bs-gradient: none;">
                                     <i class="fa-solid fa-cart-plus"></i>
-                                </button>               
+                                </button>
                             </form>
                         @endauth
                         @guest
-                        <button type="submit" data-bs-toggle="modal" data-bs-target="#exampleModal"class="btn btn-outline" style="font-size: 24px; --bs-btn-color: #35155C; --bs-btn-border-color: #35155D; --bs-btn-hover-color: #fff; --bs-btn-hover-bg: #35155D; --bs-btn-hover-border-color: #35155D; --bs-btn-focus-shadow-rgb: 13,110,253; --bs-btn-active-color: #fff; --bs-btn-active-bg: #351552; --bs-btn-active-border-color: #35155D; --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125); --bs-btn-disabled-color: #35155D; --bs-btn-disabled-bg: transparent; --bs-btn-disabled-border-color: #35155D; --bs-gradient: none;">
+                            <a href="{{ route('login') }}" class="btn btn-outline"
+                                style="font-size: 24px; --bs-btn-color: #35155C; --bs-btn-border-color: #35155D; --bs-btn-hover-color: #fff; --bs-btn-hover-bg: #35155D; --bs-btn-hover-border-color: #35155D; --bs-btn-focus-shadow-rgb: 13,110,253; --bs-btn-active-color: #fff; --bs-btn-active-bg: #351552; --bs-btn-active-border-color: #35155D; --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125); --bs-btn-disabled-color: #35155D; --bs-btn-disabled-bg: transparent; --bs-btn-disabled-border-color: #35155D; --bs-gradient: none;">
                                 <i class="fa-solid fa-cart-plus"></i>
-                            </button>
+                            </a>
                         @endguest
                     </div>
                 </div>
             @endforeach
         </div>
     @endif
-   <div class="container">
-    <h4 class="mt-5 text-center">New Product</h4>
-    <div class="content mt-3 d-flex flex-wrap gap-4 justify-content-center">
-        @if ($data->isEmpty())
-            <h1>Belum ada product ...!</h1>
-        @else
-            @foreach ($data as $x)
-                <div class="card tilt-card mb-4" style="width: 190px;" data-tilt data-tilt-max="20" data-tilt-scale="1.1">
-                    <div class="card-header m-auto" style="height: 100%; width: 100%;">
-                        <a href="{{ asset('storage/product/' . $x->foto) }}" data-lightbox="gallery"
-                            data-title="{{ $x->nama_product }}">
-                            <img src="{{ asset('storage/product/' . $x->foto) }}" alt="{{ $x->nama_product }}"
-                                style="width: 100%; height: 150px; object-fit: cover; padding: 0;"
-                                class="enlarge-image">
-                        </a>
-                    </div>
-                    <div class="card-body">
-                        <p class="m-0 text-justify">{{ $x->nama_product }}</p>
-                    </div>
-                    <div class="card-footer d-flex flex-row justify-content-between align-items-center">
-                        <p class="m-0" style="font-size: 16px; font-weight: 600;">
-                            <span>IDR</span>{{ number_format($x->harga) }}
-                        </p>
-                        @auth
-                            <form action="{{ route('addTocart') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="product_id" value="{{ $x->id }}">
-                                <button type="submit" class="btn btn-outline" style="font-size: 24px; --bs-btn-color: #35155C; --bs-btn-border-color: #35155D; --bs-btn-hover-color: #fff; --bs-btn-hover-bg: #35155D; --bs-btn-hover-border-color: #35155D; --bs-btn-focus-shadow-rgb: 13,110,253; --bs-btn-active-color: #fff; --bs-btn-active-bg: #351552; --bs-btn-active-border-color: #35155D; --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125); --bs-btn-disabled-color: #35155D; --bs-btn-disabled-bg: transparent; --bs-btn-disabled-border-color: #35155D; --bs-gradient: none;">
+    <div class="container">
+        <h4 class="mt-5 text-center">New Product</h4>
+        <div class="content mt-3 d-flex flex-wrap gap-4 justify-content-center">
+            @if ($data->isEmpty())
+                <h1>Belum ada product ...!</h1>
+            @else
+                @foreach ($data as $x)
+                    <div class="card tilt-card mb-4" style="width: 190px;" data-tilt data-tilt-max="20"
+                        data-tilt-scale="1.1">
+                        <div class="card-header m-auto" style="height: 100%; width: 100%;">
+                            <a href="{{ asset('storage/product/' . $x->foto) }}" data-lightbox="gallery"
+                                data-title="{{ $x->nama_product }}">
+                                <img src="{{ asset('storage/product/' . $x->foto) }}" alt="{{ $x->nama_product }}"
+                                    style="width: 100%; height: 150px; object-fit: cover; padding: 0;"
+                                    class="enlarge-image">
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <p class="m-0 text-justify">{{ $x->nama_product }}</p>
+                        </div>
+                        <div class="card-footer d-flex flex-row justify-content-between align-items-center">
+                            <p class="m-0" style="font-size: 16px; font-weight: 600;">
+                                <span>IDR</span>{{ number_format($x->harga) }}
+                            </p>
+                            @auth
+                                <form action="{{ route('addTocart') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{ $x->id }}">
+                                    <button type="submit" class="btn btn-outline"
+                                        style="font-size: 24px; --bs-btn-color: #35155C; --bs-btn-border-color: #35155D; --bs-btn-hover-color: #fff; --bs-btn-hover-bg: #35155D; --bs-btn-hover-border-color: #35155D; --bs-btn-focus-shadow-rgb: 13,110,253; --bs-btn-active-color: #fff; --bs-btn-active-bg: #351552; --bs-btn-active-border-color: #35155D; --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125); --bs-btn-disabled-color: #35155D; --bs-btn-disabled-bg: transparent; --bs-btn-disabled-border-color: #35155D; --bs-gradient: none;">
+                                        <i class="fa-solid fa-cart-plus"></i>
+                                    </button>
+                                </form>
+                            @endauth
+                            @guest
+                                <a href="{{ route('login') }}" class="btn btn-outline"
+                                    style="font-size: 24px; --bs-btn-color: #35155C; --bs-btn-border-color: #35155D; --bs-btn-hover-color: #fff; --bs-btn-hover-bg: #35155D; --bs-btn-hover-border-color: #35155D; --bs-btn-focus-shadow-rgb: 13,110,253; --bs-btn-active-color: #fff; --bs-btn-active-bg: #351552; --bs-btn-active-border-color: #35155D; --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125); --bs-btn-disabled-color: #35155D; --bs-btn-disabled-bg: transparent; --bs-btn-disabled-border-color: #35155D; --bs-gradient: none;">
                                     <i class="fa-solid fa-cart-plus"></i>
-                                </button>
-                            </form>
-                        @endauth
-                        @guest
-                        <button type="submit" data-bs-toggle="modal" data-bs-target="#exampleModal"class="btn btn-outline" style="font-size: 24px; --bs-btn-color: #35155C; --bs-btn-border-color: #35155D; --bs-btn-hover-color: #fff; --bs-btn-hover-bg: #35155D; --bs-btn-hover-border-color: #35155D; --bs-btn-focus-shadow-rgb: 13,110,253; --bs-btn-active-color: #fff; --bs-btn-active-bg: #351552; --bs-btn-active-border-color: #35155D; --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125); --bs-btn-disabled-color: #35155D; --bs-btn-disabled-bg: transparent; --bs-btn-disabled-border-color: #35155D; --bs-gradient: none;">
-                                <i class="fa-solid fa-cart-plus"></i>
-                            </button>
-                        @endguest
+                                </a>
+                            @endguest
+                        </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+        </div>
     </div>
-</div>
 
     <center>
         <div class="pagination mt-5 d-flex flex-row justify-content-between">

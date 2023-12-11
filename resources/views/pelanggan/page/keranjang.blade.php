@@ -27,9 +27,13 @@
                                 <td>{{ $item->nama_customer }}</td>
                                 <td>{{ $item->total_harga }}</td>
                                 <td>
-                                    @if ($item->status === 'Unpaid')
+                                    @if ($item->status === 'Unpaid' && $item->created_at >= now()->subDay())
                                         <span class="badge text-bg-danger">Unpaid</span>
-                                    @else
+                                    @elseif ($item->status === 'Unpaid' && $item->created_at <= now()->subDay())
+                                        <span class="badge text-bg-danger">Batal</span>
+                                    @elseif($item->status === 'Paid' && $item->created_at >= now()->addHours(3))
+                                        <span class="badge text-bg-success">Terkirim</span>
+                                    @elseif($item->status === 'Paid' && $item->created_at <= now()->addHours(3))
                                         <span class="badge text-bg-success">Paid</span>
                                     @endif
                                 </td>

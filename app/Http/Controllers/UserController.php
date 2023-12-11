@@ -11,15 +11,15 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 class UserController extends Controller
 {
-    public function index()
-    {
-        $data = User::paginate(10);
-        return view('admin.page.user',[
-            'name'  => "User Management",
-            'title' => 'Admin User management',
-            'data'  => $data,
-        ]);
-    }
+    // public function index()
+    // {
+    //     $data = User::where('is_mamber', 1 )->get();
+    //     return view('admin.page.user',[
+    //         'name'  => "User Management",
+    //         'title' => 'Admin User management',
+    //         'data'  => $data,
+    //     ]);
+    // }
 
 
     public function addModalUser()
@@ -191,12 +191,9 @@ class UserController extends Controller
                 $series[] = $product->quantity;
             }
 
-            info($categories);
-            info($series);
-
             return response()->json([
                 'series' => $series,
-                'categories' => $categories,
+                'categories' => collect($categories)->unique()->toArray(),
             ]);
         } catch (\Throwable $th) {
             info($th);
@@ -210,7 +207,7 @@ class UserController extends Controller
     {
         try {
             $totalTransaksi = transaksi::orderBy('created_at')->get()->groupBy(function ($item) {
-                return $item->created_at->format('Y');
+                return $item->created_at->format('M');
             });
 
             $series = [];

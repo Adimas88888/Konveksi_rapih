@@ -20,10 +20,22 @@
                 <tr>
                     <td>No</td>
                     <td>Nama Pelanggan</td>
-                    <td>Total Transaksi</td>
                     <td>Jumlah Barang</td>
-                    <td>Status</td>
-                    <td>Action</td>  
+                    <td>Total harga</td>
+                    <td>ekspedisi</td>
+                    <td>status</td>  
                 </tr>
             </thead>
+            <tbody>
+                @foreach($allTrx as $trx)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $trx->nama_customer }}</td>
+                    <td>{{ $trx->total_qty }}</td>
+                    <td>{{ $trx->total_harga }}</td>
+                    <td>{{ $trx->ekspedisi }}</td>
+                    <td>{{ $trx->created_at >= now()->subDay() ? $trx->status : 'Batal' }}</td>
+                </tr>
+                @endforeach
+            </tbody>
 @endsection

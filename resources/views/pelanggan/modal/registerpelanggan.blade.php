@@ -60,7 +60,7 @@
                   </div>
 
                   <div class="mb-3 row">
-                      <label for="foto" class="col-sm-3 col-form-label">Foto Product</label>
+                      <label for="foto" class="col-sm-3 col-form-label">Foto </label>
                       <div class="col-sm-9">
                           <input type="hidden" name="foto">
                           <input type="file" class="form-control" accept=".png, .jpg, .jpeg" id="inputFoto"

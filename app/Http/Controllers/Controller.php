@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TransaksiExport;
 use App\Models\keranjangs;
 use App\Models\product;
 use App\Models\transaksi;
@@ -11,6 +12,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class Controller extends BaseController
@@ -57,9 +59,18 @@ class Controller extends BaseController
 
     public function admin()
     {
+    
+        $Transaksi = Transaksi::count();
+        $total_transaksi = Transaksi::whereMonth('created_at', now()->month)->sum('total_harga');
+        $Product = Product::count();
+        $User = User::count();
         return view('admin.page.dashboard', [
             'name' => 'Dashboard',
             'title' => 'Admin Dashboard',
+            'User' => $User,
+            'Product' => $Product,
+            'Transaksi' => $Transaksi,
+            'total_transaksi' => $total_transaksi,
         ]);
     }
 
@@ -78,7 +89,8 @@ class Controller extends BaseController
 
     public function userManagement()
     {
-        $data = User::paginate(10);
+    //    return $data = User::paginate(10);
+       $data = User::where('is_mamber', 1 )->paginate(10);
 
         return view('admin.page.user', [
             'name' => 'User Management',
@@ -107,15 +119,8 @@ class Controller extends BaseController
         : 0;
         $all_trx = auth()->user()
         ? transaksi::where('user_id', auth()->user()->id)
-            ->where(function ($query) {
-                $query->where('status', 'unpaid')
-                    ->where('created_at', '>=', now()->subDay()); // Filter 'unpaid' for the last 24 hours
-            })
-            ->orWhere('status', 'paid') // Retrieve all 'paid' records
             ->get()
         : [];
-
-        info($all_trx);
 
         return view('pelanggan.page.keranjang', [
             'name' => 'Payment',
@@ -176,5 +181,10 @@ class Controller extends BaseController
         Alert::toast('kamu berhasil logout', 'success');
 
         return redirect('admin');
+    }
+
+    public function reportExcel()
+    {
+        return Excel::download(new TransaksiExport, 'export transaksi.xlsx');
     }
 }

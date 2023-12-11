@@ -13,16 +13,17 @@
     </div>
     <div class="card rounde-full">
         <div class="card-header bg-transparent ">
-            <button class="btn btn-info" onclick="window.location.href='/admin/download-pdf'">
+            <a href="{{ route('report.excel') }}" class="btn btn-info" onclick="window.location.href='/admin/download-pdf'">
                 <i class="fa fa-download"></i>
                 <span>Download</span>
-            </button>
+            </a>
         </div>
         <div class="card-body">
             <table class="table table-responsive table-striped">
                 <thead>
                     <tr>
                         <td>No</td>
+                        <td>Tanggal</td>
                         <td>Nama Pelanggan</td>
                         <td>Total Transaksi</td>
                         <td>Jumlah Barang</td>
@@ -39,6 +40,7 @@
                             <tr class="align-middle">
 
                                 <td>{{ $loop->iteration }}</td>
+                                <td>{{ $item->created_at }}</td>
                                 <td>{{ $item->nama_customer }}</td>
                                 <td>{{ $item->total_harga }}</td>
                                 <td>{{ $item->total_qty }}</td>
@@ -50,6 +52,7 @@
                                 </td>
                         @endforeach
                     @endif
+                            </tbody>
 
                     <script>
                         document.getElementById('downloadButton').addEventListener('click', function() {

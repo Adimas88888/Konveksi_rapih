@@ -25,7 +25,7 @@
                     <tr>
                         <td>No</td>
                         <td>Foto</td>
-                        <td>Date In</td>
+                        <td>Tanggal</td>
                         <td>SKU</td>
                         <td>Product Name</td>
                         <td>Category</td>

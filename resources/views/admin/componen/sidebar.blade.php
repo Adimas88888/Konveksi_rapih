@@ -23,15 +23,15 @@
                 <a href="{{ route('user_management') }}" class="nav-link">
                     <div class="d-flex gap-3">
                         <span class="material-icons"> people_alt</span>
-                        <p class="m-0 p-0">Admin Management</p>
+                        <p class="m-0 p-0">User Management</p>
                     </div>
                 </a>
             </li>
-            <li class="navbar-item rounded {{ Request::path() === 'admin/user_management' ? 'bg-info' : '' }}">
-                <a href="{{ route('user_management') }}" class="nav-link">
+            <li class="navbar-item rounded {{ Request::path() === 'admin/admin_management' ? 'bg-info' : '' }}">
+                <a href="{{ route('admin_management') }}" class="nav-link">
                     <div class="d-flex gap-3">
                         <span class="material-icons"> people_alt</span>
-                        <p class="m-0 p-0">User Management</p>
+                        <p class="m-0 p-0">Admin Management</p>
                     </div>
                 </a>
             </li>
@@ -60,14 +60,14 @@
                 </a>
             </li>
             <li class="navbar-item rounded {{ Request::path() === 'admin' ? 'bg-info' : '' }}">
-                <form action="{{ route('logout') }}" id="form-logout" method="POST">
+                <form action="{{ route('logout') }}" id="logout-form" method="POST">
                     @csrf
-                    <button type="submit" class="nav-link" onclick="$('#logout-form').submit();">
+                    <a type="button" class="nav-link" onclick="$('#logout-form').submit();">
                         <div class="d-flex gap-3">
                             <span class="material-icons"> logout</span>
                             <p class="m-0 p-0">logout</p>
                         </div>
-                    </button>
+                    </a>
                 </form>
             </li>
         </ul>

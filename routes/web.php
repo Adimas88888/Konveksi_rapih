@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ExpensesSummaryController;
@@ -60,8 +61,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/admin/dashboard', [Controller::class, 'admin'])->name('admin');
     Route::get('/admin/user_management', [Controller::class, 'userManagement'])->name('user_management');
+    Route::get('/admin/admin_management', [AdminController::class, 'adminManagement'])->name('admin_management');
     Route::get('/admin/product', [Controller::class, 'product'])->name('product');
     Route::get('/admin/report', [Controller::class, 'report'])->name('report');
+    Route::get('/admin/report/excel', [Controller::class, 'reportExcel'])->name('report.excel');
 
     Route::get('/admin/chart', [UserController::class, 'chart'])->name('chart');
     Route::get('/admin/chart2', [UserController::class, 'chart2'])->name('chart2');
@@ -72,6 +75,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/admin/user_management/updateDataUser/{id}', [UserController::class, 'update'])->name('updateDataUser');
     Route::DELETE('/admin/user_management/deleteUser/{id}', [UserController::class, 'destroy'])->name('destroyDataUser');
 
+    Route::GET('/admin/admin_management/addModalAdmin', [AdminController::class, 'addmodaladmin'])->name('addModal.admin');
+    Route::POST('/admin/admin_management/addData', [AdminController::class, 'store'])->name('addDataAdmin');
+    Route::GET('/admin/admin_management/editAdmin/{id}', [AdminController::class, 'show'])->name('showDataAdmin');
+    Route::put('/admin/admin_management/updateDataAdmin/{id}', [AdminController::class, 'update'])->name('updateDataAdmin');
+    Route::DELETE('/admin/admin_management/deleteAdmin/{id}', [AdminController::class, 'destroy'])->name('destroyDataAdmin');
+
+    
     Route::get('/admin/addModal', [productController::class, 'addmodal'])->name('addModal');
     Route::POST('/admin/addData', [productController::class, 'store'])->name('addData');
     Route::GET('/admin/editModel/{id}', [productController::class, 'show'])->name('editModal');

@@ -26,6 +26,7 @@
                         <tr>
                             <th>No</th>
                             <th>Tanggal Masuk</th>
+                           
                             <th>Nama Karyawan</th>
                             <th>Email</th>
                             <th>Role</th>
@@ -41,6 +42,7 @@
                                     <img src="{{ asset('storage/user/' . $item->foto) }}" alt="Gambar Product"
                                         style="width:100px;">
                                 </td> --}}
+                               
                                 <td>{{ $item->created_at }}</td>
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->email }}</td>
@@ -79,7 +81,7 @@
     <div class="tampilData" style="display: none;"></div>
     <div class="tampilEditData" style="display: none;"></div>
 
-    <script>
+    {{-- <script>
         $('#addData').click(function(e) {
             e.preventDefault();
             $.ajax({
@@ -229,5 +231,5 @@
                 });
             });
         });
-    </script>
+    </script> --}}
 @endsection

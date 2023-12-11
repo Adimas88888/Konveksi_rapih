@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('nik');
+            $table->string('nik')->nullable();
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('tgl_lahir');
             $table->string('tlp'); 
             $table->boolean('is_active')->default(1);
-            $table->integer('role');  
+            $table->integer('role')->nullable();  
             $table->rememberToken();
             $table->timestamps();
         });

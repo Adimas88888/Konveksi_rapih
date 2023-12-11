@@ -35,13 +35,6 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="password" class="col-sm-5 col-form-label">Password Karyawan</label>
-                        <div class="col-sm-7">
-                            <input type="password" class="form-control" id="password" name="password"
-                                autocomplete="off" value="{{password_needs_rehash($data->password,'PASSWORD_BCRYPT')}}">
-                        </div>
-                    </div>
-                    <div class="mb-3 row">
                         <label for="alamat" class="col-sm-5 col-form-label">Alamat Karyawan</label>
                         <div class="col-sm-7">
                             <input type="text" class="form-control" id="alamat" name="alamat" value="{{$data->alamat}}">
