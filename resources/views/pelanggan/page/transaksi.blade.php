@@ -14,7 +14,7 @@
         @foreach ($data as $item)
             <div class="card mb-3">
                 <div class="card-body d-flex flex-column flex-md-row align-items-center gap-4">
-                    <img src="{{ asset('storage/Product/' . $item->product->foto) }}" alt="{{ $item->product->nama_product }}"
+                    <img src="{{ asset('storage/product/' . $item->product->foto) }}" alt="{{ $item->product->nama_product }}"
                         style="width: 200px; height: 200px;">
                     <form action="{{ route('checkout.product', ['id' => $item->id]) }}" method="POST" class="w-100">
                         @csrf
