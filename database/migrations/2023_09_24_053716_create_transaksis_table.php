@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('alamat');
             $table->integer('no_tlp');
             $table->string('ekspedisi');
-            $table->enum('status', ['Unpaid','Paid']);
+            $table->enum('status', ['Unpaid','Paid','Send']);
             $table->timestamps();
         });
     }

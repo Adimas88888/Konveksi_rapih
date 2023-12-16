@@ -31,9 +31,9 @@
                                         <span class="badge text-bg-danger">Unpaid</span>
                                     @elseif ($item->status === 'Unpaid' && $item->created_at <= now()->subDay())
                                         <span class="badge text-bg-danger">Batal</span>
-                                    @elseif($item->status === 'Paid' && $item->created_at >= now()->addHours(3))
+                                    @elseif($item->status === 'Send')
                                         <span class="badge text-bg-success">Terkirim</span>
-                                    @elseif($item->status === 'Paid' && $item->created_at <= now()->addHours(3))
+                                    @elseif($item->status === 'Paid')
                                         <span class="badge text-bg-success">Paid</span>
                                     @endif
                                 </td>

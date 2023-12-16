@@ -10,11 +10,11 @@
     <table>
         <thead>
             <tr>
-                <td>No</td>
-                <td>Tanggal</td>
-                <td>Nama Pelanggan</td>
-                <td>Total Transaksi</td>
-                <td>Jumlah Barang</td>
+                <th>No</th>
+                <th colspan="2">Tanggal</th>
+                <th colspan="2">Nama Pelanggan</th>
+                <th colspan="2">Total Transaksi</th>
+                <th colspan="2">Jumlah Barang</th>
             </tr>
         </thead>
         <tbody>
@@ -25,20 +25,20 @@
             @else
                 @foreach ($transaksis as $item)
                     <tr class="align-middle">
-
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $item->created_at }}</td>
-                        <td>{{ $item->nama_customer }}</td>
-                        <td>{{ $item->total_harga }}</td>
-                        <td>{{ $item->total_qty }}</td>
+                        <td colspan="2">{{ $item->created_at }}</td>
+                        <td colspan="2">{{ $item->nama_customer }}</td>
+                        <td colspan="2">{{ $item->total_harga }}</td>
+                        <td colspan="2">{{ $item->total_qty }}</td>
+                    </tr>
                 @endforeach
                 <tr>
-                    <td colspan="3">Total</td>
-                    <td>{{ $transaksis->sum('total_harga') }}</td>
-                    <td>{{ $transaksis->sum('total_qty') }}</td>
+                    <td colspan="6">Total</td>
+                    <td >{{ $transaksis->sum('total_harga') }}</td>
+                    <td colspan="2">{{ $transaksis->sum('total_qty') }}</td>
                 </tr>
             @endif
-                </tbody>
+        </tbody>
     </table>
 </body>
 </html>

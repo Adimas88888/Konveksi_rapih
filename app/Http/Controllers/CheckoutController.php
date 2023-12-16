@@ -19,7 +19,7 @@ class CheckoutController extends Controller
         $detailBelanja = modelDetailTransaksi::where(['id_transaksi' => $codeTransaksi, 'status' => 0])->sum('price');
         $JumlahBarang = modelDetailTransaksi::where(['id_transaksi' => $codeTransaksi, 'status' => 0])->count();
         $qtyBarang = modelDetailTransaksi::where(['id_transaksi' => $codeTransaksi, 'status' => 0])->sum('qty');
-
+// $User = User::where('id')
         return view('pelanggan.page.checkout', [
             'title' => 'Check Out',
             'count' => $countKeranjang,
@@ -88,7 +88,7 @@ class CheckoutController extends Controller
 
         Alert::alert()->success('Berhasil disimpan', 'Lanjut pembayaran');
 
-        return redirect()->route('Home');
+        return redirect()->route('keranjang');
 
     }
 

@@ -15,7 +15,7 @@
         <div class="card-header bg-transparent ">
             <button class="btn btn-info" data-bs-toggle="modal" id="addData">
                 <i class="fa fa-plus">
-                    <span>Tambah User</span>
+                    <span>Tambah Admin</span>
                 </i>
             </button>
         </div>
@@ -25,12 +25,11 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Tanggal Masuk</th>
-                           
+                            <th>Foto</th>
                             <th>Nama Karyawan</th>
                             <th>Email</th>
+                            <th>No Hp</th>
                             <th>Role</th>
-                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -38,21 +37,16 @@
                         @foreach ($data as $item)
                             <tr class="align-middle">
                                 <td>{{ $loop->iteration }}</td>
-                                {{-- <td>
+                                <td>
                                     <img src="{{ asset('storage/user/' . $item->foto) }}" alt="Gambar Product"
                                         style="width:100px;">
-                                </td> --}}
-                               
-                                <td>{{ $item->created_at }}</td>
+                                </td>
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->email }}</td>
+                                <td>{{ $item->tlp }}</td>
                                 <td>
                                     <span
                                         class='badge text-bg-{{ $item->role === 1 ? 'info' : 'success' }}'>{{ $item->role === 1 ? 'Admin' : 'Member' }}</span>
-                                </td>
-                                <td>
-                                    <span
-                                        class="badge text-bg-{{ $item->is_active === 1 ? 'success' : 'danger' }}">{{ $item->is_active === 1 ? 'Active' : 'No Active' }}</span>
                                 </td>
                                 <td class="text-center">
                                     <button class="btn btn-info editModal" data-id="{{ $item->id }}">
@@ -81,7 +75,7 @@
     <div class="tampilData" style="display: none;"></div>
     <div class="tampilEditData" style="display: none;"></div>
 
-    {{-- <script>
+    <script>
         $('#addData').click(function(e) {
             e.preventDefault();
             $.ajax({
@@ -194,17 +188,12 @@
                                     '<td><img src="{{ asset('storage/user') }}/' +
                                     item.foto +
                                     '" alt="Gambar Product" style="width:100px;"></td>' +
-                                    '<td>' + item.nik + '</td>' +
-                                    '<td>' + item.created_at + '</td>' +
                                     '<td>' + item.name + '</td>' +
+                                    '<td>' + item.email + '</td>' +
+                                    '<td>' + item.tlp + '</td>' +
                                     '<td><span class="badge text-bg-' +
                                     (item.role === 1 ? 'info' : 'success') + '">' +
                                     (item.role === 1 ? 'Admin' : 'Member') +
-                                    '</span></td>' +
-                                    '<td><span class="badge text-bg-' +
-                                    (item.is_active === 1 ? 'success' : 'danger') +
-                                    '">' +
-                                    (item.is_active === 1 ? 'Active' : 'No Active') +
                                     '</span></td>' +
                                     '<td class="text-center">' +
                                     '<button class="btn btn-info editModal" data-id="' +
@@ -231,5 +220,5 @@
                 });
             });
         });
-    </script> --}}
+    </script>
 @endsection

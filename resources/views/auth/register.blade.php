@@ -59,15 +59,7 @@
             <x-input-error :messages="$errors->get('foto')" class="mt-2" />
         </div>
         
-        <div class="mb-3 row">
-            <label for="foto" class="col-sm-3 col-form-label">Foto </label>
-            <div class="col-sm-9">
-                <input type="hidden" name="foto">
-                <input type="file" class="form-control" accept=".png, .jpg, .jpeg" id="inputFoto"
-                    name="foto" onchange="previewImg()">
-                <img class="mt-2 preview" style="width: 100px;">
-            </div>
-        </div>
+    
 
         <div class="flex items-center justify-end mt-4">
             <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">

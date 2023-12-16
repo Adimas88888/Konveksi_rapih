@@ -13,7 +13,7 @@
                             <label for="nama_penerima" class="col-form-label col-sm-3">Nama penerima</label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control col-sm-9" id="nama_penerima" name="namaPenerima"
-                                    placeholder="Masukan Nama Penerima" autofocus required>
+                                    placeholder="Masukan Nama Penerima" autofocus required value="{{ Auth::user()->name }}">
                             </div>
                         </div>
 
@@ -21,21 +21,21 @@
                             <label for="tlp" class="col-form-label col-sm-3">No.tlp penerima</label>
                             <div class="col-sm-9">
                                 <input type="number" class="form-control col-sm-9" id="tlp" name="tlp"
-                                    placeholder="Masukan No Penerima" required>
+                                    placeholder="Masukan No Penerima" required value="{{ Auth::user()->tlp }}">
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="alamat_penerima" class="col-form-label col-sm-3">Alamat penerima</label>
+                            <label for="alamat_penerima" class="col-form-label col-sm-3">Alamat Lengkap</label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control " id="alamatPenerima" name="alamatpenerima"
-                                    placeholder="Masukan Alamat Penerima" required>
+                                    placeholder="Masukan Alamat Penerima" required value="{{ Auth::user()->alamat }}">
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <label for="provincy" class="col-form-label col-sm-3">Provinsi</label>
                             <div class="col-sm-9">
-                                <select name="provincy" id="provincy" class="form-control">
+                                <select name="provincy" id="provincy" class="form-control" required>
                                     <option value="">Pilih Provinsi</option>
                                 </select>
                             </div>
@@ -43,7 +43,7 @@
                         <div class="row mb-3">
                             <label for="destination" class="col-form-label col-sm-3">Kota</label>
                             <div class="col-sm-9">
-                                <select name="destination" id="destination" class="form-control">
+                                <select name="destination" id="destination" class="form-control" required>
                                     <option value="">Pilih Kota </option>
                                 </select>
                             </div>
@@ -51,7 +51,7 @@
                         <div class="row mb-3">
                             <label for="ekspedisi" class="col-form-label col-sm-3">Ekspedisi</label>
                             <div class="col-sm-9">
-                                <select type="ekspedisi" class="form-control eksp" id="ekspedisi" name="ekspedisi">
+                                <select type="ekspedisi" class="form-control eksp" id="ekspedisi" name="ekspedisi" required>
                                     <option value="">-- Pilih Ekspedisi --</option>
                                     <option value="pos">POS</option>
                                     <option value="jne">JNE</option>
@@ -60,7 +60,7 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="service" class="col-form-label col-sm-3">Pilih jasa</label>
+                            <label for="service" class="col-form-label col-sm-3" required>Pilih jasa</label>
                             <div class="col-sm-9">
                                 <select name="service" id="service" class="form-control">
                                     <option value="">Pilih Jasa </option>
@@ -133,102 +133,103 @@
 @endsection
 
 @section('script')
-<script>
-        
-    /**
-     * get data provincy
-     */
-    $.ajax({
-        url: '{{ route('rajaongkir.provinsi') }}',
-        method: "GET",
-        success: function(data) {
-            var provincy = $("#provincy");
-            data.forEach(element => {
-                provincy.append(
-                    `<option value="${element.province_id}">${element.province}</option>`);
-            });
-        },
-        failed: function(res) {
-
-        }
-    });
-
-    /**
-     * get data cities
-     */
-    function getCities(provincyId) {
+    <script>
+        /**
+         * get data provincy
+         */
         $.ajax({
-            url: '{{ route('rajaongkir.kota') }}',
+            url: '{{ route('rajaongkir.provinsi') }}',
             method: "GET",
-            data: {
-                'provincy_id': provincyId
-            },
             success: function(data) {
-                var destination = $("#destination");
+                var provincy = $("#provincy");
                 data.forEach(element => {
-                    destination.append(
-                        `<option value="${element.city_id}">${element.city_name}</option>`);
+                    provincy.append(
+                        `<option value="${element.province_id}">${element.province}</option>`);
                 });
             },
-            failed: function(res) {}
-        });
-    }
-
-    /**
-     * get data cost  
-     */
-    function getCosts(courier) {
-        $.ajax({
-            url: '{{ route('rajaongkir.cost') }}',
-            method: "GET",
-            data: {
-                'destination': $('#destination').val(),
-                'courier': courier
-            },
-            success: function(data) {
-
-                $("#service").empty();
-                $("#service").append(`<option value="">Pilih Jasa</option>`);
-                var costs = data[0]['costs'];
-                console.log(costs);
-                costs.forEach(cost => {
-                    $("#service").append(`<option value="${cost['cost'][0]['value']}">${cost["description"]}</option>`);
-                });
-            },
-            failed: function(data) {
+            failed: function(res) {
 
             }
         });
-    }
-
-
-    $(function() {
-        /**
-         * listen change provincy
-         */
-        $('#provincy').on('change', function() {
-            $("#destination").empty();
-            $("#destination").append(`<option value="">Pilih Kota</option>`);
-            getCities($(this).val());
-        });
-
 
         /**
-         * listen change ekspedisi
+         * get data cities
          */
-        $(".eksp").change(function(e) {
-            e.preventDefault();
-            var eksp = $(".eksp").val();
-            getCosts(eksp);
-        });
+        function getCities(provincyId) {
+            $.ajax({
+                url: '{{ route('rajaongkir.kota') }}',
+                method: "GET",
+                data: {
+                    'provincy_id': provincyId
+                },
+                success: function(data) {
+                    var destination = $("#destination");
+                    data.forEach(element => {
+                        destination.append(
+                            `<option value="${element.city_id}">${element.city_name}</option>`);
+                    });
+                },
+                failed: function(res) {}
+            });
+        }
 
         /**
-         * listen change service
+         * get data cost  
          */
-        $("#service").change(function(e) {
-            e.preventDefault();
-            var ongkir = $(".ongkir").val($(this).val());
-            $(".pembayaran").each(function() {
+        function getCosts(courier) {
+            $.ajax({
+                url: '{{ route('rajaongkir.cost') }}',
+                method: "GET",
+                data: {
+                    'destination': $('#destination').val(),
+                    'courier': courier
+                },
+                success: function(data) {
+
+                    $("#service").empty();
+                    $("#service").append(`<option value="">Pilih Jasa</option>`);
+                    var costs = data[0]['costs'];
+                    console.log(costs);
+                    costs.forEach(cost => {
+                        $("#service").append(
+                            `<option value="${cost['cost'][0]['value']}">${cost["description"]}</option>`
+                            );
+                    });
+                },
+                failed: function(data) {
+
+                }
+            });
+        }
+
+
+        $(function() {
+            /**
+             * listen change provincy
+             */
+            $('#provincy').on('change', function() {
+                $("#destination").empty();
+                $("#destination").append(`<option value="">Pilih Kota</option>`);
+                getCities($(this).val());
+            });
+
+
+            /**
+             * listen change ekspedisi
+             */
+            $(".eksp").change(function(e) {
+                e.preventDefault();
+                var eksp = $(".eksp").val();
+                getCosts(eksp);
+            });
+
+            /**
+             * listen change service
+             */
+            $("#service").change(function(e) {
+                e.preventDefault();
+                var ongkir = $(".ongkir").val($(this).val());
+                $(".pembayaran").each(function() {
                     var card = $(this);
                     var totalBelanja = card.find(".totalBelanja").val();
                     var totalPpn = parseInt(totalBelanja) * 0.11;
@@ -239,7 +240,7 @@
                     console.log(subtotal2);
                     card.find(".totalkan").val(subtotal2);
                 })
-          });
-    });
-</script>
+            });
+        });
+    </script>
 @endsection

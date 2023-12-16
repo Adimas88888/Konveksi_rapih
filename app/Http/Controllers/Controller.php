@@ -21,8 +21,10 @@ class Controller extends BaseController
 
     public function index()
     {
-        $best = product::where('quantity_out', '>=', 5)->get();
-        $data = product::paginate(10);
+        $best = Product::where('quantity_out', '>=', 5)
+            ->where('quantity', '>', 0)
+            ->get();
+        $data = Product::where('quantity', '>', 0)->paginate(10);
         $countKeranjang = auth()->user() ? keranjangs::where('idUser', auth()->user()->id)->where('status', 0)->count() : 0;
 
         return view('pelanggan.page.home', [
@@ -35,9 +37,11 @@ class Controller extends BaseController
 
     public function shop(Request $request)
     {
-        $data = product::when($request->type && $request->category, function ($query) use ($request) {
+        $data = Product::when($request->type && $request->category, function ($query) use ($request) {
             return $query->where('type', $request->type)->where('kategory', $request->category);
-        })->paginate(8);
+        })
+            ->where('quantity', '>', 0)
+            ->paginate(8);
         $countKeranjang = auth()->user() ? keranjangs::where('idUser', auth()->user()->id)->where('status', 0)->count() : 0;
 
         return view('pelanggan.page.shop', [
@@ -59,7 +63,7 @@ class Controller extends BaseController
 
     public function admin()
     {
-    
+
         $Transaksi = Transaksi::count();
         $total_transaksi = Transaksi::whereMonth('created_at', now()->month)->sum('total_harga');
         $Product = Product::count();
@@ -82,15 +86,15 @@ class Controller extends BaseController
             'product' => $Product,
             'name' => 'Product',
             'title' => 'Admin Product',
-            'sku' => 'BRG'.rand(10000, 99999),
+            'sku' => 'BRG' . rand(10000, 99999),
 
         ]);
     }
 
     public function userManagement()
     {
-    //    return $data = User::paginate(10);
-       $data = User::where('is_mamber', 1 )->paginate(10);
+
+        $data = User::where('is_mamber', 1)->orderBy('created_at', 'desc')->paginate(10);
 
         return view('admin.page.user', [
             'name' => 'User Management',
@@ -101,26 +105,40 @@ class Controller extends BaseController
 
     public function report()
     {
-        $transaksi = transaksi::all();
+        $total_transaksi = Transaksi::where('status', 'paid')
+            ->whereMonth('created_at', now()->month)
+            ->sum('total_harga');
+
+        $total_qty = Transaksi::where('status', 'paid')
+            ->whereMonth('created_at', now()->month)
+            ->sum('total_qty');
+
+        $transaksi = transaksi::where('status', 'paid')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
         return view('admin.page.report', [
             'name' => 'Report',
             'title' => 'Admin Report',
             'transaksis' => $transaksi,
+            'total_qty' => $total_qty,
+            'total_transaksi' => $total_transaksi,
         ]);
     }
 
     public function keranjang()
     {
         $countKeranjang = auth()->user()
-        ? keranjangs::where('idUser', auth()->user()->id)
-            ->where('status', 0)
-            ->count()
-        : 0;
+            ? keranjangs::where('idUser', auth()->user()->id)
+                ->orderBy('created_at', 'desc')
+                ->where('status', 0)
+                ->count()
+            : 0;
         $all_trx = auth()->user()
-        ? transaksi::where('user_id', auth()->user()->id)
-            ->get()
-        : [];
+            ? transaksi::where('user_id', auth()->user()->id)
+                ->orderBy('created_at', 'desc')
+                ->get()
+            : [];
 
         return view('pelanggan.page.keranjang', [
             'name' => 'Payment',
@@ -186,5 +204,44 @@ class Controller extends BaseController
     public function reportExcel()
     {
         return Excel::download(new TransaksiExport, 'export transaksi.xlsx');
+    }
+
+    public function updateDataUser(Request $request, $id)
+    {
+        $data = User::findOrFail($id);
+        // return $request;
+        if ($request->file('foto')) {
+            $photo = $request->file('foto');
+            $filename = date('Ymd') . '_' . $photo->getClientOriginalName();
+            $photo->move(public_path('storage/user'), $filename);
+            $data->foto = $filename;
+        } else {
+            $filename = $data->foto;
+        }
+        
+        $field = [
+            'nik' => $request->nik,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'alamat' => $request->alamat,
+            'tlp' => $request->tlp,
+            'tgl_lahir' => $request->tglLahir,
+            'role' => $request->role,
+            'foto' => $filename,
+        ];
+
+        $data::where('id', $id)->update($field);
+        Alert::toast('Data berhasil diupdate', 'success');
+        return redirect()->back();
+    }
+
+    public function updateDataUserBiasa()
+    {
+        $count = auth()->user() ? keranjangs::where('idUser', auth()->user()->id)->where('status', 0)->count() : 0;
+
+        $data = User::where('id', Auth::id())->first();
+        $title = 'edit profile';
+        return view('pelanggan.page.editProfil', compact('title', 'data', 'count'));
     }
 }

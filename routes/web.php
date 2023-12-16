@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::GET('/editProfilUserBiasa', [Controller::class, 'updateDataUserBiasa'])->name('updateDataUserBiasa');
 
 Route::group(['middleware' => 'member'], function () {
     Route::get('/', [Controller::class, 'index'])->name('Home');
@@ -81,7 +82,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/admin/admin_management/updateDataAdmin/{id}', [AdminController::class, 'update'])->name('updateDataAdmin');
     Route::DELETE('/admin/admin_management/deleteAdmin/{id}', [AdminController::class, 'destroy'])->name('destroyDataAdmin');
 
-    
+
     Route::get('/admin/addModal', [productController::class, 'addmodal'])->name('addModal');
     Route::POST('/admin/addData', [productController::class, 'store'])->name('addData');
     Route::GET('/admin/editModel/{id}', [productController::class, 'show'])->name('editModal');
@@ -90,10 +91,14 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/filter-data', [productController::class, 'filterData'])->name('filterData');
     Route::get('/filter-data2', [UserController::class, 'filterData2'])->name('filterData2');
-    Route::post('/filter-data3', [ReportController::class, 'filterData3'])->name('filterData3');
+    Route::post('/filter-data3', [IncomeSummaryController::class, 'filterData3'])->name('filterData3');
+    Route::post('/filter-data4', [ExpensesSummaryController::class, 'filterData4'])->name('filterData4');
+    Route::post('/filter-data5', [ReportController::class, 'filterData5'])->name('filterData5');
+
+
+    Route::post('/admin/updateTransaksi/{transaksi}', [ExpensesSummaryController::class, 'updateStatus'])->name('updateTransaksi');
     Route::DELETE('/admin/deleteTransaksi/{id}', [ReportController::class, 'destroy'])->name('deleteTransaksi');
-    Route::get('admin/download-pdf', [ReportController::class, 'downloadPDF']);
-    Route::get('admin/view-pdf', [ReportController::class, 'viewPDF']);
+
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

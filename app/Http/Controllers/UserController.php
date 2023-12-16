@@ -71,7 +71,6 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $data = User::findOrFail($id);
-// return $request;
         if ($request->file('foto')) {
             $photo = $request->file('foto');
             $filename = date('Ymd') . '_' . $photo->getClientOriginalName();
@@ -80,12 +79,11 @@ class UserController extends Controller
         } else {
             $filename = $data->foto;
         }
-
+        info($request->all());
         $field = [
             'nik'                   => $request->nik,
             'name'                  => $request->name,
             'email'                 => $request->email,
-            'password'              => bcrypt($request->password),
             'alamat'                => $request->alamat,
             'tlp'                   => $request->tlp,
             'tgl_lahir'             => $request->tglLahir,
@@ -94,7 +92,7 @@ class UserController extends Controller
         ];
 
         $data::where('id', $id)->update($field);
-        Alert::toast('Data berhasil diupdate', 'success');
+        Alert::toast('Data berhasil diupdate woi', 'success');
         return redirect()->back();
     }
     public function destroy($id)
@@ -251,7 +249,7 @@ class UserController extends Controller
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', '%' . $search . '%')
-                    ->orWhere('nik', 'like', '%' . $search . '%');
+                    ->orWhere('email', 'like', '%' . $search . '%');
             });
         }
     

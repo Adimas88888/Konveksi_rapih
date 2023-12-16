@@ -11,7 +11,7 @@ class TransaksiExport implements FromView
     public function view(): View
     {
         return view('admin.report.excel', [
-            'transaksis' => transaksi::get(),
+            'transaksis' => transaksi::where('status', 'Paid')->get(),
         ]);
     }
 }
