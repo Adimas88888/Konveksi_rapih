@@ -92,7 +92,7 @@ class UserController extends Controller
         ];
 
         $data::where('id', $id)->update($field);
-        Alert::toast('Data berhasil diupdate woi', 'success');
+        Alert::toast('Data berhasil diupdate.', 'success');
         return redirect()->back();
     }
     public function destroy($id)

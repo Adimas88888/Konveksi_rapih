@@ -50,12 +50,6 @@ Route::group(['middleware' => 'member'], function () {
 
 });
 
-// routes/web.php
-
-// Route::get('admin/reset-password', [ResetPasswordController::class, 'reset'])->name('reset-password');
-// Route::post('admin/reset-password', [ResetPasswordController::class, 'resetPassword'])->name('reset-password.submit');
-// Route::POST('/admin/loginProses', [Controller::class, 'loginProses'])->name('loginProses');
-// Route::get('/admin/logout', [Controller::class, 'logout'])->name('logout');
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/admin/incomesummary', [IncomeSummaryController::class, 'incomesummary'])->name('incomesummary');
     Route::get('/admin/expensessummary', [ExpensesSummaryController::class, 'expensessummary'])->name('expensessummary');

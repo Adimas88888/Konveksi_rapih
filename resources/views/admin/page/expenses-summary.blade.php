@@ -15,7 +15,7 @@
     <div class="card-header bg-transparent ">
     </div>
     <div class="card-body">
-        <table class="table table-responsive table-striped">
+        <table class="table table-responsive table-striped" id="trxTable">
             <thead>
                 <tr>
                     <td>No</td>
@@ -72,9 +72,7 @@
             )
         }
 
-        $(document).ready(function() {
-           
-            
+        $(document).ready(function() {            
             $('#filter_tgl').click(function() {
                 var tgl_awal = $('#tgl_awal').val();
                 var tgl_akhir = $('#tgl_akhir').val();
@@ -84,14 +82,15 @@
                     type: "POST",
                     url: "{{ route('filterData4') }}",
                     data: {
+                        "_token": "{{ csrf_token() }}",
                         tgl_awal: tgl_awal,
                         tgl_akhir: tgl_akhir,
                         search: search,
                     },
                     success: function(response) {
+                        console.log(response);
                         // Kosongkan tbody
                         $('#trxTable tbody').empty();
-
                         // Cek jika transaksi tidak kosong
                         if (response.transactions.length > 0) {
                             // Loop melalui setiap transaksi dalam respon
@@ -103,7 +102,10 @@
                                     '<td>' + transaction.total_qty + '</td>' +
                                     '<td>' + transaction.total_harga + '</td>' +
                                     '<td>' + transaction.ekspedisi + '</td>' +
-                                    '<td>' + (transaction.created_at >= now().subDay() ? transaction.status : 'Batal') + '</td>' +
+                                    '<td>' + ` <select name="status" id="status" onchange="updateTransaction('${transaction.url_update}', this)">
+                            <option value="Send" ${transaction.status == 'Send' ? 'selected' : ''} >Send</option>
+                            <option value="Paid" ${transaction.status == 'Paid' ? 'selected' : ''} >Paid</option>
+                          </select>`  + '</td>' +
                                     '</tr>';
 
                                 $('#trxTable tbody').append(row);
