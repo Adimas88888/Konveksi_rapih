@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\TransaksiExport;
+
 use App\Models\keranjangs;
 use App\Models\product;
 use App\Models\transaksi;
@@ -12,7 +12,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
-use Maatwebsite\Excel\Facades\Excel;
+
 use RealRashid\SweetAlert\Facades\Alert;
 
 class Controller extends BaseController
@@ -103,28 +103,7 @@ class Controller extends BaseController
         ]);
     }
 
-    public function report()
-    {
-        $total_transaksi = Transaksi::where('status', 'paid')
-            ->whereMonth('created_at', now()->month)
-            ->sum('total_harga');
-
-        $total_qty = Transaksi::where('status', 'paid')
-            ->whereMonth('created_at', now()->month)
-            ->sum('total_qty');
-
-        $transaksi = transaksi::where('status', 'paid')
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
-
-        return view('admin.page.report', [
-            'name' => 'Report',
-            'title' => 'Admin Report',
-            'transaksis' => $transaksi,
-            'total_qty' => $total_qty,
-            'total_transaksi' => $total_transaksi,
-        ]);
-    }
+   
 
     public function keranjang()
     {
@@ -148,63 +127,9 @@ class Controller extends BaseController
         ]);
     }
 
-    // Login admin
-    public function login()
-    {
-        return view('admin.page.login', [
-            'name' => 'Login',
-            'title' => 'Admin Login',
-        ]);
-    }
+    
 
-    public function loginProses(Request $request)
-    {
-
-        $dataLogin = [
-            'email' => $request->email,
-            'password' => $request->password,
-        ];
-
-        $user = new User;
-        $proses = $user::where('email', $request->email)->first();
-
-        if ($proses) {
-            // User found, check if they are an admin
-            if ($proses->is_admin === 0) {
-                return back()->with('error', 'kamu bukan admin');
-            } else {
-                // Attempt to authenticate the user
-                if (Auth::attempt($dataLogin)) {
-                    Alert::toast('success', 'kamu berhasil login');
-                    $request->session()->regenerate();
-
-                    return redirect('/admin/dashboard');
-                } else {
-                    Alert::toast('Email atau Password salah', 'Email atau Password salah');
-
-                    return back()->withErrors(['error' => 'Email dan Password salah']);
-                }
-            }
-        } else {
-            // User not found
-            return back()->with('error', 'User not found');
-        }
-    }
-
-    public function logout()
-    {
-        Auth::logout();
-        request()->session()->invalidate();
-        request()->session()->regenerateToken();
-        Alert::toast('kamu berhasil logout', 'success');
-
-        return redirect('admin');
-    }
-
-    public function reportExcel()
-    {
-        return Excel::download(new TransaksiExport, 'export transaksi.xlsx');
-    }
+    
 
     public function updateDataUser(Request $request, $id)
     {

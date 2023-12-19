@@ -58,8 +58,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/admin/user_management', [Controller::class, 'userManagement'])->name('user_management');
     Route::get('/admin/admin_management', [AdminController::class, 'adminManagement'])->name('admin_management');
     Route::get('/admin/product', [Controller::class, 'product'])->name('product');
-    Route::get('/admin/report', [Controller::class, 'report'])->name('report');
-    Route::get('/admin/report/excel', [Controller::class, 'reportExcel'])->name('report.excel');
+    Route::get('/admin/report', [ReportController::class, 'report'])->name('report');
+    Route::get('/admin/report/excel', [ReportController::class, 'reportExcel'])->name('report.excel');
 
     Route::get('/admin/chart', [UserController::class, 'chart'])->name('chart');
     Route::get('/admin/chart2', [UserController::class, 'chart2'])->name('chart2');

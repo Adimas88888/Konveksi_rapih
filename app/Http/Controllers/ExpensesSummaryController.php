@@ -25,11 +25,6 @@ class ExpensesSummaryController extends Controller
     public function updateStatus(transaksi $transaksi, Request $request, )
     {
         $status = $request->status;
-        // $validate = $request->validate(
-        //     [
-        //         'status' => 'in: Paid, Send'
-        //     ]
-        // );
         try {
 
             $transaksi->update(

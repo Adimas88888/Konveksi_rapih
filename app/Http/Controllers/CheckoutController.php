@@ -19,7 +19,7 @@ class CheckoutController extends Controller
         $detailBelanja = modelDetailTransaksi::where(['id_transaksi' => $codeTransaksi, 'status' => 0])->sum('price');
         $JumlahBarang = modelDetailTransaksi::where(['id_transaksi' => $codeTransaksi, 'status' => 0])->count();
         $qtyBarang = modelDetailTransaksi::where(['id_transaksi' => $codeTransaksi, 'status' => 0])->sum('qty');
-// $User = User::where('id')
+
         return view('pelanggan.page.checkout', [
             'title' => 'Check Out',
             'count' => $countKeranjang,
@@ -95,6 +95,10 @@ class CheckoutController extends Controller
     public function bayar($id)
     {
         $find_data = transaksi::find($id);
+        $uniqueString = uniqid();
+        $find_data->code_transaksi = $uniqueString;
+        $find_data->update();
+
         $countKeranjang = auth()->user() ? keranjangs::where('idUser', auth()->user()->id)->where('status', 0)->count() : 0;
         \Midtrans\Config::$serverKey = config('midtrans.server_key');
         // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
@@ -106,7 +110,7 @@ class CheckoutController extends Controller
 
         $params = [
             'transaction_details' => [
-                'order_id' => $find_data->code_transaksi,
+                'order_id' => $uniqueString,
                 'gross_amount' => $find_data->total_harga,
             ],
             'customer_details' => [

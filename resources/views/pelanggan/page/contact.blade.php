@@ -12,7 +12,7 @@
             <img src="{{ asset('asset/img/sp.png') }}" alt="baju 1" style="width: 100%;">
         </div>
     </div>
-    <div class="container mt-4">
+    <div class="container mt-4 mb-5">
         <div class="row">
             <div class="col-md-6">
                 <div class="d-flex flex-column">

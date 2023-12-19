@@ -9,17 +9,17 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class productController extends Controller
 {
-    public function index()
-    {
+    // public function index()
+    // {
 
-        $data = product::orderBy('created_at', 'desc')->paginate(10);
+    //     $data = product::orderBy('created_at', 'desc')->paginate(10);
 
-        return view('admin.page.product', [
-            'name' => 'Product',
-            'title' => 'admin Product',
-            'data' => $data,
-        ]);
-    }
+    //     return view('admin.page.product', [
+    //         'name' => 'Product',
+    //         'title' => 'admin Product',
+    //         'data' => $data,
+    //     ]);
+    // }
 
     public function show($id)
     {
@@ -76,7 +76,6 @@ class productController extends Controller
         return redirect(route('product'));
     }
 
-    // UpdateProductRequest
 
     public function update(UpdateProductRequest $request, product $product, $id)
     {
@@ -131,10 +130,8 @@ class productController extends Controller
             });
         }
 
-        // Eksekusi query
         $products = $query->get();
 
-        // Cek apakah hasil query kosong
         if ($products->isEmpty()) {
             return response()->json([
                 'message' => 'Data not found',

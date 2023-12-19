@@ -3,9 +3,6 @@
         KONVEKSI RAPIH
     </div>
     <span class="text-center">
-        Konveksi Rapih adalah ahli dalam menciptakan pakaian berkualitas tinggi. Dengan desain kreatif dan jahitan
-        presisi, produk fashion kami tidak hanya memukau visual, tetapi juga memberikan kenyamanan maksimal kepada
-        pelanggan. Setiap detail diproses dengan penuh perhatian, menjadikan setiap pakaian Konveksi Rapih sebagai
-        simbol keanggunan dan kepercayaan diri.
+        Konveksi Rapih merupakan ahli pakaian berkualitas tinggi dengan desain kreatif, jahitan presisi, dan memberikan kenyamanan maksimal bagi pelanggan. Setiap detail diproses dengan penuh perhatian, menjadikan pakaian kami bukan hanya sebagai produk fashion, tetapi juga sebagai simbol keanggunan dan kepercayaan diri.
     </span>
 </div>
