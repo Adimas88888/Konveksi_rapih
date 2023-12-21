@@ -47,9 +47,9 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="tglLahir" class="col-sm-5 col-form-label">Tanggal lahir</label>
+                        <label for="tgl_Lahir" class="col-sm-5 col-form-label">Tanggal lahir</label>
                         <div class="col-sm-7">
-                            <input type="date" required title="('Kolom ini harus diisi')" class="form-control" id="tglLahir" name="tglLahir" value="{{$data->tglLahir}}">
+                            <input type="date" required title="('Kolom ini harus diisi')" class="form-control" id="tgl_Lahir" name="tgl_Lahir" value="{{$data->tgl_Lahir}}">
                         </div>
                     </div>
                     <div class="mb-3 row">

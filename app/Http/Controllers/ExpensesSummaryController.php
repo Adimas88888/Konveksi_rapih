@@ -45,44 +45,39 @@ class ExpensesSummaryController extends Controller
 
     public function filterData4(Request $request)
     {
-        info($request);
         $tgl_awal = $request->tgl_awal;
         $tgl_akhir = $request->tgl_akhir;
         $search = $request->search;
 
-        $query = transaksi::query()->where('status', 'Paid')->orWhere('status', 'Send');
+        // Gunakan closure untuk menyatukan kondisi OR antara 'Paid' dan 'Send'
+        $query = Transaksi::query()->where(function ($query) {
+            $query->where('status', 'Paid')->orWhere('status', 'Send');
+        });
 
-        // Filter berdasarkan tanggal
+        // Tambahkan kondisi untuk rentang tanggal jika tgl_awal dan tgl_akhir ada
         if ($tgl_awal && $tgl_akhir) {
             $query->whereBetween('created_at', [$tgl_awal, $tgl_akhir]);
         }
 
-        // Filter berdasarkan pencarian
+        // Tambahkan kondisi pencarian jika ada data pencarian
         if ($search) {
-                $query->where('nama_customer', 'like', '%' . $search . '%')
-                    ->orWhere('total_qty', 'like', '%' . $search . '%')
-                    ->orWhere('total_harga', 'like', '%' . $search . '%')
-                    ->orWhere('ekspedisi', 'like', '%' . $search . '%')
-                    ->orWhere('status', 'like', '%' . $search . '%');
+            $query->where('nama_customer', 'like', '%' . $search . '%');
         }
 
-        // Eksekusi query
-        $transactions = $query->get();
+        // Ambil data transaksi sesuai kondisi-kondisi yang telah ditetapkan
+        $transaksis = $query->get();
 
-        // Cek apakah hasil query kosong
-        if ($transactions->isEmpty()) {
+        // Jika tidak ada data transaksi yang ditemukan, kembalikan pesan
+        if ($transaksis->isEmpty()) {
             return response()->json([
-                'transactions' => [],
-                'message' => 'Data not found',
+                'message' => 'Data tidak ditemukan',
             ]);
         }
 
-        foreach ($transactions as $key => $value) {
-            $value['url_update'] = route('updateTransaksi', $value->id);
-        }
+        // Jika ada data transaksi, kembalikan data transaksi dalam format JSON
         return response()->json([
-            'transactions' => $transactions,
-            
+            'transaksis' => $transaksis
         ]);
     }
+
 }

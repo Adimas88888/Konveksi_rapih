@@ -58,7 +58,7 @@
                 </div>
             </div>
 
-            <div class="modal-footer">
+            <div class="modal-footer gap-4">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-success">Save</button>
             </div>

@@ -78,19 +78,7 @@ class Controller extends BaseController
         ]);
     }
 
-    public function product()
-    {
-        $Product = product::orderBy('created_at', 'desc')->paginate(6);
-
-        return view('admin.page.product', [
-            'product' => $Product,
-            'name' => 'Product',
-            'title' => 'Admin Product',
-            'sku' => 'BRG' . rand(10000, 99999),
-
-        ]);
-    }
-
+   
     public function userManagement()
     {
 

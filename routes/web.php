@@ -57,7 +57,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/admin/dashboard', [Controller::class, 'admin'])->name('admin');
     Route::get('/admin/user_management', [Controller::class, 'userManagement'])->name('user_management');
     Route::get('/admin/admin_management', [AdminController::class, 'adminManagement'])->name('admin_management');
-    Route::get('/admin/product', [Controller::class, 'product'])->name('product');
+    Route::get('/admin/product', [productController::class, 'product'])->name('product');
     Route::get('/admin/report', [ReportController::class, 'report'])->name('report');
     Route::get('/admin/report/excel', [ReportController::class, 'reportExcel'])->name('report.excel');
 

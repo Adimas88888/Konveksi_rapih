@@ -43,7 +43,7 @@
                     <div class="col-sm-7">
                         <select type="text" class="form-control" id="kategori" name="kategory">
                             <option value="">pilih kategori</option>
-                            <option value="Pria"{{ $data->kategory === 'Pria' ? 'selected' : '' }}>Pria</option>
+                            <option value="pria"{{ $data->kategory === 'pria' ? 'selected' : '' }}>Pria</option>
                             <option value="Wanita"{{ $data->kategory === 'Wanita' ? 'selected' : '' }}>Wanita</option>
                             <option value="Anak-anak"{{ $data->kategory === 'Anak-anak' ? 'selected' : '' }}>Anak-anak
                             </option>

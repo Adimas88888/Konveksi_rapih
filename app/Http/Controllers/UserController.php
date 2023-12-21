@@ -40,7 +40,7 @@ class UserController extends Controller
         $data->alamat   = $request->alamat;
         $data->tlp      = $request->tlp;
         $data->role     = $request->role;
-        $data->tgl_lahir     = $request->tglLahir;
+        $data->tgl_lahir     = $request->tgl_Lahir;
         $data->is_active= 1;
         $data->is_mamber= 0;
         $data->is_admin = 1;
@@ -86,7 +86,7 @@ class UserController extends Controller
             'email'                 => $request->email,
             'alamat'                => $request->alamat,
             'tlp'                   => $request->tlp,
-            'tgl_lahir'             => $request->tglLahir,
+            'tgl_lahir'             => $request->tgl_Lahir,
             'role'                  => $request->role,
             'foto'                  => $filename,
         ];

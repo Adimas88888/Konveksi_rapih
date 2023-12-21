@@ -9,17 +9,18 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class productController extends Controller
 {
-    // public function index()
-    // {
+    public function product()
+    {
+        $Product = product::orderBy('created_at', 'desc')->paginate(6);
 
-    //     $data = product::orderBy('created_at', 'desc')->paginate(10);
+        return view('admin.page.product', [
+            'product' => $Product,
+            'name' => 'Product',
+            'title' => 'Admin Product',
+            'sku' => 'BRG' . rand(10000, 99999),
 
-    //     return view('admin.page.product', [
-    //         'name' => 'Product',
-    //         'title' => 'admin Product',
-    //         'data' => $data,
-    //     ]);
-    // }
+        ]);
+    }
 
     public function show($id)
     {
