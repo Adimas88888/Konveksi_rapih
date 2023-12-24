@@ -157,9 +157,4 @@
         });
     });
 
-    // $(document).ready(function() {
-    //     $('.enlarge-image').click(function() {
-    //         $(this).toggleClass('enlarge');
-    //     });
-    // });
 </script>

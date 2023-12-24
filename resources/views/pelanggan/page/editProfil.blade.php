@@ -52,7 +52,7 @@
             </div>
 
             <div class="modal-footer gap-4">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href='/' type="button" class="btn btn-secondary" >Close</a>
                 <button type="submit" class="btn btn-success">Save</button>
             </div>
         </form>

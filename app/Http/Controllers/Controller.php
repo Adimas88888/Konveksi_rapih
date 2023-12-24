@@ -115,9 +115,6 @@ class Controller extends BaseController
         ]);
     }
 
-    
-
-    
 
     public function updateDataUser(Request $request, $id)
     {

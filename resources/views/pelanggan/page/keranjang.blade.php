@@ -44,11 +44,6 @@
                                             <a href="{{ route('keranjang.bayar', ['id' => $item->id]) }}"
                                                 class="btn btn-success">Bayar</a>
                                         @endif
-                                        {{-- @if ($item->status === 'Unpaid' && $item->created_at >= now()->subDay())
-                                        <a href="{{ route('keranjang.bayar', ['id' => $item->id]) }}" class="btn btn-success">Bayar</a>
-                                    @else
-                                        <button class="btn btn-success" disabled>Bayar</button>
-                                    @endif --}}
                                     </td>
                                 </tr>
                             @endforeach
