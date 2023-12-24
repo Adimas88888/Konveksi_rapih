@@ -22,7 +22,6 @@ return new class extends Migration
             $table->boolean('is_mamber')->default(1);
             $table->string('foto')->default('default.png');
             $table->string('alamat');
-            $table->string('tgl_lahir');
             $table->string('tlp'); 
             $table->boolean('is_active')->default(1);
             $table->integer('role')->nullable();  

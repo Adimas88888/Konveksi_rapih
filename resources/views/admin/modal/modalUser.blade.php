@@ -17,13 +17,13 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="name" class="col-sm-5 col-form-label">Nama Karyawan</label>
+                        <label for="name" class="col-sm-5 col-form-label">Nama</label>
                         <div class="col-sm-7">
                             <input type="text" class="form-control" id="nama" name="nama" autocomplete="off" required>
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="email" class="col-sm-5 col-form-label">Email Karyawan</label>
+                        <label for="email" class="col-sm-5 col-form-label">Email</label>
                         <div class="col-sm-7">
                             <input type="email" class="form-control" id="email" name="email" autocomplete="off" 
                                 required oninvalid="this.setCustomValidity('Mohon masukkan alamat email')" 
@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="password" class="col-sm-5 col-form-label">Password Karyawan</label>
+                        <label for="password" class="col-sm-5 col-form-label">Password</label>
                         <div class="col-sm-7">
                             <input type="password" class="form-control" id="password" name="password" autocomplete="off" required
                             oninvalid="this.setCustomValidity('Mohon masukkan password')" 
@@ -39,21 +39,14 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="alamat" class="col-sm-5 col-form-label">Alamat Karyawan</label>
+                        <label for="alamat" class="col-sm-5 col-form-label">Alamat</label>
                         <div class="col-sm-7">
                             <input type="alamat" class="form-control" id="alamat" name="alamat" required
                             oninvalid="this.setCustomValidity('Mohon masukkan alamat ')" 
                                 oninput="setCustomValidity('')">
                         </div>
                     </div>
-                    <div class="mb-3 row">
-                        <label for="tglLahir" class="col-sm-5 col-form-label">Tanggal lahir</label>
-                        <div class="col-sm-7">
-                            <input type="date" class="form-control" id="tglLahir" name="tglLahir" required
-                            oninvalid="this.setCustomValidity('Mohon masukkan tglLahir')" 
-                                oninput="setCustomValidity('')">
-                        </div>
-                    </div>
+
                     <div class="mb-3 row">
                         <label for="tlp" class="col-sm-5 col-form-label">No HP</label>
                         <div class="col-sm-7">
@@ -76,7 +69,7 @@
                         </div>
                     </div>
                     <div class="mb-2 row">
-                        <label for="foto" class="col-sm-5 col-form-label">Foto Karyawan</label>
+                        <label for="foto" class="col-sm-5 col-form-label">Foto </label>
                         <div class="col-sm-7">
                             <input type="hidden" name="foto">
                             <img id="preview" class="mb-2" alt="" style="width: 100px;">

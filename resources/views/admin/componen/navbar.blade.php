@@ -2,11 +2,6 @@
                           <div class="d-flex flex-column">
                           </div>
                           <div class="d-flex align-items-center gap-4">
-                              <div class="icon-notif">
-                                  {{-- <span class="material-icons">
-                                      notifications
-                                  </span> --}}
-                              </div>
                               <div class="d-flex gap 2 align-items-center">
                                   @auth
                                       <img src="{{ asset('storage/user/' . Auth::user()->foto) }}" class="rounded-circle"

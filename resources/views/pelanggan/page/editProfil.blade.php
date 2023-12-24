@@ -41,13 +41,6 @@
                     </div>
                 </div>
                 <div class="mb-3 row">
-                    <label for="tglLahir" class="col-sm-5 col-form-label">Tanggal lahir</label>
-                    <div class="col-sm-7">
-                        <input type="date" required title="('Kolom ini harus diisi')" class="form-control" id="tglLahir"
-                            name="tglLahir" value="{{ $data->tglLahir }}">
-                    </div>
-                </div>
-                <div class="mb-3 row">
                     <label for="foto" class="col-sm-5 col-form-label">Foto Profil</label>
                     <div class="col-sm-7">
                         <input type="hidden" name="foto">
@@ -64,20 +57,20 @@
             </div>
         </form>
     </div>
-    <script>
-        function previewImg() {
-            const fotoIn = document.querySelector('#inputFoto');
-            const preview = document.querySelector('.preview');
+</div>
+<script>
+    function previewImg() {
+        const fotoIn = document.querySelector('#inputFoto');
+        const preview = document.querySelector('.preview');
 
-            preview.style.display = 'block';
+        preview.style.display = 'block';
 
-            const oFReader = new FileReader();
-            oFReader.readAsDataURL(fotoIn.files[0]);
+        const oFReader = new FileReader();
+        oFReader.readAsDataURL(fotoIn.files[0]);
 
-            oFReader.onload = function(oFREvent) {
-                preview.src = oFREvent.target.result;
-            }
+        oFReader.onload = function(oFREvent) {
+            preview.src = oFREvent.target.result;
         }
-    </script>
-    </div>
+    }
+</script>
 @endsection

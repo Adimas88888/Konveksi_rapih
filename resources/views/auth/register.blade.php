@@ -25,11 +25,11 @@
         </div>
         
         <!-- Date of Birth -->
-        <div class="mt-4">
+        {{-- <div class="mt-4">
             <x-input-label for="date" :value="__('Date of Birth')" />
             <x-text-input id="date" class="block mt-1 w-full" type="date" name="tgl_lahir" :value="old('date')" required autofocus autocomplete="date" />
             <x-input-error :messages="$errors->get('date')" class="mt-2" />
-        </div>
+        </div> --}}
         
         <!-- Email Address -->
         <div class="mt-4">

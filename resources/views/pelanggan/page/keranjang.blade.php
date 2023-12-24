@@ -32,7 +32,7 @@
                                         @elseif ($item->status === 'Unpaid' && $item->created_at <= now()->subDay())
                                             <span class="badge text-bg-danger">Batal</span>
                                         @elseif($item->status === 'Send')
-                                            <span class="badge text-bg-success">Terkirim</span>
+                                            <span class="badge text-bg-success">Send</span>
                                         @elseif($item->status === 'Paid')
                                             <span class="badge text-bg-success">Paid</span>
                                         @endif

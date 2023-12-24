@@ -122,7 +122,7 @@ class Controller extends BaseController
     public function updateDataUser(Request $request, $id)
     {
         $data = User::findOrFail($id);
-        // return $request;
+       
         if ($request->file('foto')) {
             $photo = $request->file('foto');
             $filename = date('Ymd') . '_' . $photo->getClientOriginalName();
@@ -139,7 +139,7 @@ class Controller extends BaseController
             'password' => bcrypt($request->password),
             'alamat' => $request->alamat,
             'tlp' => $request->tlp,
-            'tgl_lahir' => $request->tglLahir,
+            // 'tgl_lahir' => $request->tglLahir,
             'role' => $request->role,
             'foto' => $filename,
         ];

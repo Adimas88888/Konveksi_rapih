@@ -34,7 +34,7 @@
                     <td>{{ $trx->total_qty }}</td>
                     <td>{{ $trx->total_harga }}</td>
                     <td>{{ $trx->ekspedisi }}</td>
-                    <td>{{ $trx->created_at >= now()->subDay() ? $trx->status : 'Batal' }}</td>
+                    <td class="badge text-bg-danger">{{ $trx->created_at >= now()->subDay() ? $trx->status : 'Batal' }}</td>
                 </tr>
                 @endforeach
             </tbody>

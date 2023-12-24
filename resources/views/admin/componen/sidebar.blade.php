@@ -39,7 +39,7 @@
                 <a href="{{ route('incomesummary') }}" class="nav-link">
                     <div class="d-flex gap-3">
                         <span class="material-icons">arrow_forward</span>
-                        <p class="m-0 p-0">Income Report</p>
+                        <p class="m-0 p-0">Incoming Trxs</p>
                     </div>
                 </a>
             </li>
@@ -47,7 +47,7 @@
                 <a href="{{ route('expensessummary') }}" class="nav-link">
                     <div class="d-flex gap-3">
                         <span class="material-icons">arrow_back</span>
-                        <p class="m-0 p-0">Expenses Report</p>
+                        <p class="m-0 p-0">Trxs Successful</p>
                     </div>
                 </a>
             </li>
