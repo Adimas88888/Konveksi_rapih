@@ -31,11 +31,10 @@
                                     placeholder="Masukan Alamat Penerima" required value="{{ Auth::user()->alamat }}">
                             </div>
                         </div>
-
                         <div class="row mb-3">
                             <label for="provincy" class="col-form-label col-sm-3">Provinsi</label>
                             <div class="col-sm-9">
-                                <select name="provincy" id="provincy" class="form-control" required>
+                                <select name="provincy" id="provincy" class="form-control" required oninvalid="this.setCustomValidity('Pilih Provinsi')" onchange="resetValidity(this)">
                                     <option value="">Pilih Provinsi</option>
                                 </select>
                             </div>
@@ -43,7 +42,8 @@
                         <div class="row mb-3">
                             <label for="destination" class="col-form-label col-sm-3">Kota</label>
                             <div class="col-sm-9">
-                                <select name="destination" id="destination" class="form-control" required>
+                                <select name="destination" id="destination" class="form-control" required
+                                    oninvalid="this.setCustomValidity('Pilih Kota')" onchange="resetValidity(this)">
                                     <option value="">Pilih Kota </option>
                                 </select>
                             </div>
@@ -51,7 +51,8 @@
                         <div class="row mb-3">
                             <label for="ekspedisi" class="col-form-label col-sm-3">Ekspedisi</label>
                             <div class="col-sm-9">
-                                <select type="ekspedisi" class="form-control eksp" id="ekspedisi" name="ekspedisi" required>
+                                <select type="ekspedisi" class="form-control eksp" id="ekspedisi" name="ekspedisi" required
+                                    oninvalid="this.setCustomValidity('Pilih Ekspedisi')" onchange="resetValidity(this)">
                                     <option value="">-- Pilih Ekspedisi --</option>
                                     <option value="pos">POS</option>
                                     <option value="jne">JNE</option>
@@ -60,9 +61,10 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="service" class="col-form-label col-sm-3" required>Pilih jasa</label>
+                            <label for="service" class="col-form-label col-sm-3">Pilih jasa</label>
                             <div class="col-sm-9">
-                                <select name="service" id="service" class="form-control">
+                                <select name="service" id="service" class="form-control" required
+                                    oninvalid="this.setCustomValidity('Pilih Jasa')" onchange="resetValidity(this)">
                                     <option value="">Pilih Jasa </option>
                                 </select>
                             </div>
@@ -89,7 +91,8 @@
                         <div class="row mb-3">
                             <label for="PPn" class="col-form-label col-sm-6">PPn</label>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control ppn" id="PPn" name="PPn" value="0">
+                                <input type="text" class="form-control ppn" id="PPn" name="PPn"
+                                    value="0">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -134,6 +137,14 @@
 
 @section('script')
     <script>
+        function resetValidity(selectElement) {
+            // Hapus pesan kesalahan
+            selectElement.setCustomValidity('');
+
+            // Setel ulang validitas elemen
+            selectElement.validity.valid = true;
+            selectElement.validity.customError = false;
+        }
         /**
          * get data provincy
          */
@@ -193,7 +204,7 @@
                     costs.forEach(cost => {
                         $("#service").append(
                             `<option value="${cost['cost'][0]['value']}">${cost["description"]}</option>`
-                            );
+                        );
                     });
                 },
                 failed: function(data) {

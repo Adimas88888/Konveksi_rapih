@@ -40,19 +40,18 @@
                                     readonly id="total">
                             </div>
                         </div>
-                        <div class="d-flex justify-content-between w-100">
-                            <button type="submit"
-                                class="btn btn-success text-center d-flex flex-column align-items-center">
+                        <div class="d-flex justify-content-between w-100 gap-5">
+                            <button type="submit" class="btn btn-success text-center d-flex flex-column align-items-center flex-sm-fill">
                                 <i class="fas fa-shopping-cart"></i>
                                 Checkout
                             </button>
-                            <button type="button"
-                                class="btn btn-danger delete-btn text-center d-flex flex-column align-items-center"
+                            <button type="button" class="btn btn-danger delete-btn text-center d-flex flex-column align-items-center flex-sm-fill"
                                 data-item-id="{{ $item->id }}">
                                 <i class="fas fa-trash-alt"></i>
                                 Delete
                             </button>
                         </div>
+                        
                     </form>
                 </div>
             </div>
