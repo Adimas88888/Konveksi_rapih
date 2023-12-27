@@ -91,17 +91,16 @@
                         <div class="row mb-3">
                             <label for="PPn" class="col-form-label col-sm-6">PPn</label>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control ppn" id="PPn" name="PPn"
-                                    value="0">
+                                <input type="text" class="form-control ppn" id="PPn" name="PPn" value="0" readonly>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="ongkir" class="col-form-label col-sm-6">Ongkir</label>
                             <div class="col-sm-6">
-                                <input type="number" class="form-control ongkir" id="ongkir" name="ongkir"
-                                    value="0">
+                                <input type="number" class="form-control ongkir" id="ongkir" name="ongkir" value="0" readonly>
                             </div>
                         </div>
+                        
                         <hr>
                         <div class="row mb-3">
                             <label for="dibayarkan" class="col-form-label col-sm-6">Total</label>

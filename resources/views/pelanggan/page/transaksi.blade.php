@@ -41,68 +41,70 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-between w-100 gap-5">
-                            <button type="submit" class="btn btn-success text-center d-flex flex-column align-items-center flex-sm-fill">
+                            <button type="submit"
+                                class="btn btn-success text-center d-flex flex-column align-items-center flex-sm-fill">
                                 <i class="fas fa-shopping-cart"></i>
                                 Checkout
                             </button>
-                            <button type="button" class="btn btn-danger delete-btn text-center d-flex flex-column align-items-center flex-sm-fill"
+                            <button type="button"
+                                class="btn btn-danger delete-btn text-center d-flex flex-column align-items-center flex-sm-fill"
                                 data-item-id="{{ $item->id }}">
                                 <i class="fas fa-trash-alt"></i>
                                 Delete
                             </button>
                         </div>
-                        
+
                     </form>
                 </div>
             </div>
+        @endforeach
+        <script>
+            // Menambahkan event listener untuk tombol "Delete"
+            let tombolDelete = document.querySelectorAll('.delete-btn');
+            tombolDelete.forEach(button => {
+                console.log('sini');
+                button.addEventListener('click', function() {
+                    const itemId = this.getAttribute('data-item-id');
 
-            <script>
-                // Menambahkan event listener untuk tombol "Delete"
-                const deleteButtons = document.querySelectorAll('.delete-btn');
-                deleteButtons.forEach(button => {
-                    button.addEventListener('click', function() {
-                        const itemId = this.getAttribute('data-item-id');
+                    // Tampilkan pesan swal untuk konfirmasi penghapusan
+                    Swal.fire({
+                        title: 'Anda yakin ingin menghapus item ini?',
+                        text: 'Item yang dihapus tidak dapat dikembalikan.',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Ya, hapus!',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Kirim permintaan DELETE ke server
+                            fetch(`/delete/detailtransaksi/${itemId}`, {
+                                    method: 'DELETE',
+                                    headers: {
+                                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                    },
+                                })
+                                .then(response => {
+                                    console.log(response);
+                                    if (response.status === 200) {
+                                        // Hapus elemen dari tampilan setelah berhasil dihapus
+                                        const itemCard = this.closest('.card');
+                                        itemCard.remove();
 
-                        // Tampilkan pesan swal untuk konfirmasi penghapusan
-                        Swal.fire({
-                            title: 'Anda yakin ingin menghapus item ini?',
-                            text: 'Item yang dihapus tidak dapat dikembalikan.',
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonText: 'Ya, hapus!',
-                            cancelButtonText: 'Batal'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                // Kirim permintaan DELETE ke server
-                                fetch(`/delete/detailtransaksi/${itemId}`, {
-                                        method: 'DELETE',
-                                        headers: {
-                                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                        },
-                                    })
-                                    .then(response => {
-                                        console.log(response);
-                                        if (response.status === 200) {
-                                            // Hapus elemen dari tampilan setelah berhasil dihapus
-                                            const itemCard = this.closest('.card');
-                                            itemCard.remove();
-
-                                            // Tampilkan toast success
-                                            toastr.success('Item berhasil dihapus', 'Sukses');
-                                        } else {
-                                            // Tampilkan pesan swal untuk kegagalan
-                                            Swal.fire({
-                                                icon: 'error',
-                                                title: 'Gagal menghapus item',
-                                                text: 'Terjadi kesalahan saat menghapus item.',
-                                            });
-                                        }
-                                    });
-                            }
-                        });
+                                        // Tampilkan toast success
+                                        toastr.success('Item berhasil dihapus', 'Sukses');
+                                    } else {
+                                        // Tampilkan pesan swal untuk kegagalan
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Gagal menghapus item',
+                                            text: 'Terjadi kesalahan saat menghapus item.',
+                                        });
+                                    }
+                                });
+                        }
                     });
                 });
-            </script>
-        @endforeach
+            });
+        </script>
     @endif
 @endsection

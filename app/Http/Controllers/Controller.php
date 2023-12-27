@@ -148,7 +148,9 @@ class Controller extends BaseController
 
     public function updateDataUserBiasa()
     {
-        $count = auth()->user() ? keranjangs::where('idUser', auth()->user()->id)->where('status', 0)->count() : 0;
+        $count = auth()->user() ?
+         keranjangs::where('idUser', auth()->user()->id)->where('status', 0)->count() 
+         : 0;
 
         $data = User::where('id', Auth::id())->first();
         $title = 'edit profile';
