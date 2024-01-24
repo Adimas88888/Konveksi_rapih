@@ -14,6 +14,7 @@ class TransaksiController extends Controller
 
     public function transaksi()
     {
+        // $count_Trx = auth()->user() ? transaksi::where('user_id', auth()->user()->id)->where('status', 'Unpaid')->count() : 0;
         $countKeranjang = auth()->user() ? keranjangs::where('idUser', auth()->user()->id)->where('status', 0)->count() : 0;
         $db = auth()->user() ? keranjangs::with('product')->where('idUser', auth()->user()->id)->where('status', 0)->get() : [];
 
@@ -21,6 +22,7 @@ class TransaksiController extends Controller
             'title' => 'Transaksi',
             'data' => $db,
             'count' => $countKeranjang,
+            // 'counttrx'=> $count_Trx, 
         ]);
     }
     public function deleteDataDetail($id)

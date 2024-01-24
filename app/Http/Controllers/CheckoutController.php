@@ -69,6 +69,9 @@ class CheckoutController extends Controller
         $dbTransaksi->nama_customer = $data['namaPenerima'];
         $dbTransaksi->alamat = $data['alamatpenerima'];
         $dbTransaksi->no_tlp = $data['tlp'];
+        // $dbTransaksi->provinsi = $data['provincy'];
+        // $dbTransaksi->kota = $data['destination'];
+        // $dbTransaksi->jasa = $data['service'];
         $dbTransaksi->ekspedisi = $data['ekspedisi'];
 
         $dbTransaksi->save();

@@ -32,8 +32,6 @@
             </div>
         </footer>
     </main>
-    @include('pelanggan.modal.loginpelanggan')
-    @include('pelanggan.modal.registerpelanggan')
     @include('sweetalert::alert')
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">

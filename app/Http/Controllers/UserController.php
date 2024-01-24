@@ -86,7 +86,6 @@ class UserController extends Controller
             'email'                 => $request->email,
             'alamat'                => $request->alamat,
             'tlp'                   => $request->tlp,
-            // 'tgl_lahir'             => $request->tglLahir,
             'role'                  => $request->role,
             'foto'                  => $filename,
         ];
@@ -119,7 +118,6 @@ class UserController extends Controller
         $data->alamat       = $request->alamat . " " . $request->alamat2;
         $data->tlp          = $request->tlp;
         $data->role         = 0;
-        // $data->tgl_lahir     = $request->date;
         $data->is_active    = 1;
         $data->is_mamber    = 1;
         $data->is_admin     = 0;

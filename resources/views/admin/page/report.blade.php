@@ -24,7 +24,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Total Nominal Transaksi</h5>
-                        <p class="card-text" id="totalBarangWidget1">{{ $total_transaksi }}</p>
+                        <p class="card-text" id="totalBarangWidget1">{{$total_transaksi}}</p>
                     </div>
                 </div>
             </div>

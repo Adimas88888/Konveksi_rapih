@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -60,11 +61,10 @@ class RegisteredUserController extends Controller
     
             event(new Registered($user));
     
-            Auth::login($user);
     
         } catch (\Throwable $th) {
             info($th);
         }
-        return redirect('/');
+        return redirect('/login');
     }
 }

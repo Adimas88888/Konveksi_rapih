@@ -61,6 +61,9 @@
                         <a href="/checkOut" class="fs-5 na vlink {{ Request::path() == 'checkOut' ? 'active' : '' }}">
                             <i class="fa fa-money-check-alt"></i>
                         </a>
+                        {{-- @if ($counttrx)
+                        <div class="circle">{{ $counttrx }}</div>
+                    @endif --}}
                     </div>
                 </li>
             </ul>
