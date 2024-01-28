@@ -29,7 +29,8 @@
 
                             <input type="hidden" name="idBarang" value="{{ $item->product->id }}">
                             <input type="number" class="form-control border-0 fs-2" name="harga" id="harga"
-                                value="{{ $item->product->harga }}">
+                                data-url="{{ route('checkout.update-quantity', $item->id) }}"
+                                data-csrf="{{ csrf_token() }}" value="{{ $item->product->harga }}">
                             <div class="row mb-3">
                                 <label for="qty" class="col-sm-3 col-form-label fs-5">Quantity</label>
                                 <div class="col-sm-5 d-flex">

@@ -38,7 +38,11 @@ class TransaksiController extends Controller
         $db = new keranjangs;
         $product = product::findOrFail($idProduct);
 
-        if (keranjangs::where('id_barang', $idProduct)->exists()) {
+        if (keranjangs::where('idUser', auth()->user()->id)
+            ->where('id_barang', $idProduct)
+            ->where('status', 0)
+            ->exists()
+        ) {
             $db = keranjangs::where('id_barang', $idProduct)->first();
             $db->qty = $db->qty + 1;
             $db->save();

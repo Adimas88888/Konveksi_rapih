@@ -11,8 +11,9 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class CheckoutController extends Controller
 {
-    public function checkout()
+    public function checkout(Request $request)
     {
+        info($request->all());
         $keranjang = keranjangs::where('idUser', auth()->user()->id);
         $countKeranjang = $keranjang->count();
         $code = transaksi::count();
@@ -29,6 +30,12 @@ class CheckoutController extends Controller
             'qtyOrder' => $qtyBarang,
             'codeTransaksi' => $codeTransaksi,
         ]);
+    }
+
+    public function updateQuantity(keranjangs $keranjang, Request $request)
+    {
+        $keranjang->qty = $request->qty;
+        $keranjang->save();
     }
 
     public function prosesCheckout()

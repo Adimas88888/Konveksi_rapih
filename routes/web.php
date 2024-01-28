@@ -43,6 +43,7 @@ Route::group(['middleware' => 'member'], function () {
     Route::DELETE('/delete/detailtransaksi/{id}', [TransaksiController::class, 'deleteDataDetail'])->name('deleteDataDetail');
 
     Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
+    Route::get('/checkout/{keranjang}/update-quantity', [CheckoutController::class, 'updateQuantity'])->name('checkout.update-quantity');
     Route::get('/checkout/proses', [CheckoutController::class, 'prosesCheckout'])->name('checkout.product');
     Route::POST('/checkout/prosesPembayaran', [CheckoutController::class, 'prosesPembayaran'])->name('checkout.bayar');
     Route::get('/checkOut/{id}', [CheckoutController::class, 'bayar'])->name('keranjang.bayar');
