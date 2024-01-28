@@ -38,21 +38,6 @@ class CheckoutController extends Controller
         // $code = transaksi::count();
         // $codeTransaksi = date('Ymd').$code + 1;
 
-        // $detailtransaksi = new modelDetailTransaksi();
-        // $filedDetail = [
-        //     'id_transaksi' => $codeTransaksi,
-        //     'id_barang' => $data['idBarang'],
-        //     'qty' => $data['qty'],
-        //     'price' => $data['total'],
-        // ];
-        // $detailtransaksi::create($filedDetail);
-        // $filedCart = [
-        //     'qty' => $data['qty'],
-        //     'price' => $data['total'],
-        //     'status' => 1,
-        // ];
-        // keranjangs::where('id', $id)->update($filedCart);
-
         Alert::toast('Checkout Berhasil', 'success');
 
         return redirect()->route('checkout');
@@ -77,17 +62,30 @@ class CheckoutController extends Controller
 
         $dbTransaksi->save();
 
-        $dataCart = modelDetailTransaksi::where('id_transaksi', $data['code'])->get();
+        $dataCart = keranjangs::where('idUser', auth()->user()->id)->get();
         foreach ($dataCart as $item) {
-            $dataUp = modelDetailTransaksi::where('id', $item->id)->first();
-            $dataUp->status = 1;
-            $dataUp->save();
+            $detailtransaksi = new modelDetailTransaksi();
+            $filedDetail = [
+                'id_transaksi' => $data['code'],
+                'id_barang' => $item['id_barang'],
+                'qty' => $item['qty'],
+                'price' => $item['price'],
+            ];
+
+            $detailtransaksi::create($filedDetail);
+
+            $filedCart = [
+                'qty' => $item['qty'],
+                'price' => $item['price'],
+                'status' => 1,
+            ];
+
+            $item->update($filedCart);
 
             $idProduct = product::where('id', $item->id_barang)->first();
             $idProduct->quantity = $idProduct->quantity - $item->qty;
             $idProduct->quantity_out = $idProduct->quantity_out + $item->qty;
             $idProduct->save();
-
         }
 
         Alert::alert()->success('Berhasil disimpan', 'Lanjut pembayaran');
