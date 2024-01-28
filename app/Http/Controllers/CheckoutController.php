@@ -13,12 +13,13 @@ class CheckoutController extends Controller
 {
     public function checkout()
     {
-        $countKeranjang = auth()->user() ? keranjangs::where('idUser', auth()->user()->id)->where('status', 0)->count() : 0;
+        $keranjang = keranjangs::where('idUser', auth()->user()->id);
+        $countKeranjang = $keranjang->count();
         $code = transaksi::count();
         $codeTransaksi = date('Ymd').$code + 1;
-        $detailBelanja = modelDetailTransaksi::where(['id_transaksi' => $codeTransaksi, 'status' => 0])->sum('price');
-        $JumlahBarang = modelDetailTransaksi::where(['id_transaksi' => $codeTransaksi, 'status' => 0])->count();
-        $qtyBarang = modelDetailTransaksi::where(['id_transaksi' => $codeTransaksi, 'status' => 0])->sum('qty');
+        $detailBelanja = $keranjang->get()->sum('total_price');
+        $JumlahBarang = $keranjang->count();
+        $qtyBarang = $keranjang->sum('qty');
 
         return view('pelanggan.page.checkout', [
             'title' => 'Check Out',
@@ -30,31 +31,31 @@ class CheckoutController extends Controller
         ]);
     }
 
-    public function prosesCheckout(Request $request, $id)
+    public function prosesCheckout()
     {
-        $data = $request->all();
-        $code = transaksi::count();
-        $codeTransaksi = date('Ymd').$code + 1;
+        $keranjang = keranjangs::where('idUser', auth()->user()->id)->get();
+        // $data = $request->all();
+        // $code = transaksi::count();
+        // $codeTransaksi = date('Ymd').$code + 1;
 
-        $detailtransaksi = new modelDetailTransaksi();
-        $filedDetail = [
-            'id_transaksi' => $codeTransaksi,
-            'id_barang' => $data['idBarang'],
-            'qty' => $data['qty'],
-            'price' => $data['total'],
-        ];
-        $detailtransaksi::create($filedDetail);
-        $filedCart = [
-            'qty' => $data['qty'],
-            'price' => $data['total'],
-            'status' => 1,
-        ];
-        keranjangs::where('id', $id)->update($filedCart);
+        // $detailtransaksi = new modelDetailTransaksi();
+        // $filedDetail = [
+        //     'id_transaksi' => $codeTransaksi,
+        //     'id_barang' => $data['idBarang'],
+        //     'qty' => $data['qty'],
+        //     'price' => $data['total'],
+        // ];
+        // $detailtransaksi::create($filedDetail);
+        // $filedCart = [
+        //     'qty' => $data['qty'],
+        //     'price' => $data['total'],
+        //     'status' => 1,
+        // ];
+        // keranjangs::where('id', $id)->update($filedCart);
 
         Alert::toast('Checkout Berhasil', 'success');
 
         return redirect()->route('checkout');
-
     }
 
     public function prosesPembayaran(Request $request)

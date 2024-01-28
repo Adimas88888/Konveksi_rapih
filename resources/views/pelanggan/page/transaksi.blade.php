@@ -9,10 +9,11 @@
         }
     </style>
     <h3 class="mt-5 mb-5">Keranjang Belanja</h3>
-    <button type="submit" class="btn btn-success text-center d-flex flex-column align-items-center flex-sm-fill mt-5px">
+    <a href="{{ route('checkout.product') }}"
+        class="btn btn-success text-center d-flex flex-column align-items-center flex-sm-fill mt-5px mb-5">
         <i class="fas fa-shopping-cart"></i>
         Checkout All
-    </button>
+    </a>
     @if (!$data)
     @else
         @foreach ($data as $item)
@@ -47,11 +48,6 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-between w-100 gap-5">
-                            <button type="submit"
-                                class="btn btn-success text-center d-flex flex-column align-items-center flex-sm-fill">
-                                <i class="fas fa-shopping-cart"></i>
-                                Checkout
-                            </button>
                             <button type="button"
                                 class="btn btn-danger delete-btn text-center d-flex flex-column align-items-center flex-sm-fill"
                                 data-item-id="{{ $item->id }}">

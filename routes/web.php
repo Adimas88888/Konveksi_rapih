@@ -8,7 +8,6 @@ use App\Http\Controllers\IncomeSummaryController;
 use App\Http\Controllers\OngkirController;
 use App\Http\Controllers\productController;
 use App\Http\Controllers\ReportController;
-use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -44,7 +43,7 @@ Route::group(['middleware' => 'member'], function () {
     Route::DELETE('/delete/detailtransaksi/{id}', [TransaksiController::class, 'deleteDataDetail'])->name('deleteDataDetail');
 
     Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
-    Route::POST('/checkout/proses/{id}', [CheckoutController::class, 'prosesCheckout'])->name('checkout.product');
+    Route::get('/checkout/proses', [CheckoutController::class, 'prosesCheckout'])->name('checkout.product');
     Route::POST('/checkout/prosesPembayaran', [CheckoutController::class, 'prosesPembayaran'])->name('checkout.bayar');
     Route::get('/checkOut/{id}', [CheckoutController::class, 'bayar'])->name('keranjang.bayar');
 
@@ -76,7 +75,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/admin/admin_management/updateDataAdmin/{id}', [AdminController::class, 'update'])->name('updateDataAdmin');
     Route::DELETE('/admin/admin_management/deleteAdmin/{id}', [AdminController::class, 'destroy'])->name('destroyDataAdmin');
 
-
     Route::get('/admin/addModal', [productController::class, 'addmodal'])->name('addModal');
     Route::POST('/admin/addData', [productController::class, 'store'])->name('addData');
     Route::GET('/admin/editModel/{id}', [productController::class, 'show'])->name('editModal');
@@ -89,10 +87,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/filter-data4', [ExpensesSummaryController::class, 'filterData4'])->name('filterData4');
     Route::post('/filter-data5', [ReportController::class, 'filterData5'])->name('filterData5');
 
-
     Route::post('/admin/updateTransaksi/{transaksi}', [ExpensesSummaryController::class, 'updateStatus'])->name('updateTransaksi');
     Route::DELETE('/admin/deleteTransaksi/{id}', [ReportController::class, 'destroy'])->name('deleteTransaksi');
 
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

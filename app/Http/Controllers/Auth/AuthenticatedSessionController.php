@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -29,9 +29,13 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        if($request->user()->is_admin == 1) {
+        if ($request->user()->is_admin == 1) {
+            Alert::toast('Login berhasil!', 'success');
+
             return redirect('/admin/dashboard');
-        } else if ($request->user()->is_mamber == 1) {
+        } elseif ($request->user()->is_mamber == 1) {
+            Alert::toast('Login berhasil!', 'success');
+
             return redirect('/');
         }
     }
@@ -46,6 +50,8 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
+
+        Alert::toast('Logout berhasil!', 'success');
 
         return redirect('/');
     }
