@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\TransaksiExport;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\transaksi;
 use Maatwebsite\Excel\Facades\Excel;
@@ -67,7 +68,9 @@ class ReportController extends Controller
 
         // Tambahkan kondisi untuk rentang tanggal jika tgl_awal dan tgl_akhir ada
         if ($tgl_awal && $tgl_akhir) {
-            $query->whereBetween('created_at', [$tgl_awal, $tgl_akhir]);
+            $startDate = Carbon::parse($tgl_awal)->startOfDay();
+            $endDate = Carbon::parse($tgl_akhir)->endOfDay();
+            $query->whereBetween('created_at', [$startDate, $endDate]);
         }
 
         // Tambahkan kondisi pencarian jika ada data pencarian

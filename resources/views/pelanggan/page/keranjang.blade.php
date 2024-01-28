@@ -12,7 +12,7 @@
                         <thead class="text-center">
                             <tr>
                                 <th>No</th>
-                                <th>Id Transaksi</th>
+                                <th>Tanggal</th>
                                 <th>Nama Penerima</th>
                                 <th>Total Transaksi</th>
                                 <th>Status</th>
@@ -23,9 +23,9 @@
                             @foreach ($data as $x => $item)
                                 <tr>
                                     <td>{{ ++$x }}</td>
-                                    <td>{{ $item->code_transaksi }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td> 
                                     <td>{{ $item->nama_customer }}</td>
-                                    <td>{{ $item->total_harga }}</td>
+                                    <td>Rp{{ number_format ($item->total_harga) }}</td>
                                     <td>
                                         @if ($item->status === 'Unpaid' && $item->created_at >= now()->subDay())
                                             <span class="badge text-bg-danger">Unpaid</span>

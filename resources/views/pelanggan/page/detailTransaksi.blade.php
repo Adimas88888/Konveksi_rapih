@@ -7,7 +7,7 @@
                 <h4>Total yang harus dibayar</h4>
             </div>
             <div class="card-body">
-                <h6>Id Transaksi {{ $data->code_transaksi }}</h6>
+                <h6>Tanggal {{ \Carbon\Carbon::parse($data->created_at)->format('d/m/Y') }}</h6> 
                 <h6>{{ $data->nama_customer }}</h6>
                 <h6>{{ number_format($data->total_harga) }}</h6>
             </div>

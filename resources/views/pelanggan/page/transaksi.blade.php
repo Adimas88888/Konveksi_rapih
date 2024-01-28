@@ -9,6 +9,10 @@
         }
     </style>
     <h3 class="mt-5 mb-5">Keranjang Belanja</h3>
+    <button type="submit" class="btn btn-success text-center d-flex flex-column align-items-center flex-sm-fill mt-5px">
+        <i class="fas fa-shopping-cart"></i>
+        Checkout All
+    </button>
     @if (!$data)
     @else
         @foreach ($data as $item)
@@ -20,6 +24,8 @@
                         @csrf
                         <div class="desc">
                             <p class="fs-4 fw-bold">{{ $item->product->nama_product }}</p>
+                            <p class="fs-4 with-margin">Stok Barang {{ $item->product->quantity }}</p>
+
                             <input type="hidden" name="idBarang" value="{{ $item->product->id }}">
                             <input type="number" class="form-control border-0 fs-2" name="harga" id="harga"
                                 value="{{ $item->product->harga }}">

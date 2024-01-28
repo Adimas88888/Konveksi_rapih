@@ -24,7 +24,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Total Nominal Transaksi</h5>
-                        <p class="card-text" id="totalBarangWidget1">{{$total_transaksi}}</p>
+                        <p class="card-text" id="totalBarangWidget1">Rp {{ number_format($total_transaksi) }}</p>
                     </div>
                 </div>
             </div>
@@ -34,7 +34,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Total Barang</h5>
-                        <p class="card-text" id="totalBarangWidget2">{{$total_qty}}</p>
+                        <p class="card-text" id="totalBarangWidget2">{{ $total_qty }}</p>
                     </div>
                 </div>
             </div>
@@ -62,9 +62,9 @@
                             <tr class="align-middle">
 
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->created_at }}</td>
+                                <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td> 
                                 <td>{{ $item->nama_customer }}</td>
-                                <td>{{ $item->total_harga }}</td>
+                                <td>Rp {{ number_format($item->total_harga) }}</td>
                                 <td>{{ $item->total_qty }}</td>
                                 <td>
                                     <button class="btn btn-danger deleteData" onclick="deleteData({{ $item->id }})">
@@ -136,54 +136,61 @@
             }
 
             $(document).ready(function() {
-                $('#filterBtn').click(function() {
-                    var tgl_awal = $('input[name="tgl_awal"]').val();
-                    var tgl_akhir = $('input[name="tgl_akhir"]').val();
-                    var search = $('input[name="search"]').val();
+    $('#filterBtn').click(function() {
+        var tgl_awal = $('input[name="tgl_awal"]').val();
+        var tgl_akhir = $('input[name="tgl_akhir"]').val();
+        var search = $('input[name="search"]').val();
 
-                    $.ajax({
-                        type: "POST", // Ganti menjadi POST karena Anda mengirim data sensitif
-                        url: "{{ route('filterData5') }}", // Sesuaikan dengan nama rute yang Anda tentukan di Laravel
-                        data: {
-                            _token: "{{ csrf_token() }}", // Tambahkan token CSRF untuk keamanan
-                            tgl_awal: tgl_awal,
-                            tgl_akhir: tgl_akhir,
-                            search: search,
-                        },
-                        success: function(response) {
-                            // Kosongkan tbody
-                            $('tbody').empty();
+        $.ajax({
+            type: "POST",
+            url: "{{ route('filterData5') }}",
+            data: {
+                _token: "{{ csrf_token() }}",
+                tgl_awal: tgl_awal,
+                tgl_akhir: tgl_akhir,
+                search: search,
+            },
+            success: function(response) {
+                // Kosongkan tbody
+                $('tbody').empty();
 
-                            // Cek jika transaksis tidak kosong
-                            if (response.transaksis.length > 0) {
-                                // Loop melalui setiap transaksi dalam respon
-                                $.each(response.transaksis, function(index, transaksi) {
-                                    // Bangun baris HTML dan tambahkan ke tbody
-                                    var row = '<tr class="align-middle">' +
-                                        '<td>' + (index + 1) + '</td>' +
-                                        '<td>' + transaksi.created_at + '</td>' +
-                                        '<td>' + transaksi.nama_customer + '</td>' +
-                                        '<td>' + transaksi.total_harga + '</td>' +
-                                        '<td>' + transaksi.total_qty + '</td>' +
-                                        `<td> <button class="btn btn-danger deleteData" onclick="deleteData(${transaksi.id})">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button></td>` +
-                                        '</tr>';
+                // Cek jika transaksis tidak kosong
+                if (response.transaksis.length > 0) {
+                    // Loop melalui setiap transaksi dalam respon
+                    $.each(response.transaksis, function(index, transaksi) {
+                        // Format tanggal menggunakan fungsi Intl.DateTimeFormat
+                        var formattedDate = new Intl.DateTimeFormat('id-ID').format(new Date(transaksi.created_at));
 
-                                    $('tbody').append(row);
-                                });
-                            } else {
-                                // Jika transaksis kosong, tambahkan baris pesan
-                                var emptyRow =
-                                    '<tr class="text-center"><td colspan="5">Belum ada transaksi</td></tr>';
-                                $('tbody').append(emptyRow);
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            console.error(xhr.responseText);
-                        }
+                        // Format total_harga menggunakan fungsi number_format
+                        var formattedTotalHarga = 'Rp ' + new Intl.NumberFormat('id-ID').format(transaksi.total_harga);
+
+                        // Bangun baris HTML dan tambahkan ke tbody
+                        var row = '<tr class="align-middle">' +
+                            '<td>' + (index + 1) + '</td>' +
+                            '<td>' + formattedDate + '</td>' +
+                            '<td>' + transaksi.nama_customer + '</td>' +
+                            '<td>' + formattedTotalHarga + '</td>' +
+                            '<td>' + transaksi.total_qty + '</td>' +
+                            `<td> <button class="btn btn-danger deleteData" onclick="deleteData(${transaksi.id})">
+                                <i class="fas fa-trash-alt"></i>
+                            </button></td>` +
+                            '</tr>';
+
+                        $('tbody').append(row);
                     });
-                });
-            });
+                } else {
+                    // Jika transaksis kosong, tambahkan baris pesan
+                    var emptyRow =
+                        '<tr class="text-center"><td colspan="5">Belum ada transaksi</td></tr>';
+                    $('tbody').append(emptyRow);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    });
+});
+
         </script>
     @endsection

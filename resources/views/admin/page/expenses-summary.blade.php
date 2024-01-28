@@ -32,7 +32,7 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $trx->nama_customer }}</td>
                             <td>{{ $trx->total_qty }}</td>
-                            <td>{{ $trx->total_harga }}</td>
+                            <td>Rp {{ number_format($trx->total_harga) }}</td>
                             <td>{{ $trx->ekspedisi }}</td>
                             <td class="badge text-bg-success">
                                 <select name="status" class="text-bg-success" id="status"
@@ -90,56 +90,62 @@
             }
 
             $(document).ready(function() {
-    $('#filter_tgl').click(function() {
-        var tgl_awal = $('#tgl_awal').val();
-        var tgl_akhir = $('#tgl_akhir').val();
-        var search = $('#search').val();
+                $('#filter_tgl').click(function() {
+                    var tgl_awal = $('#tgl_awal').val();
+                    var tgl_akhir = $('#tgl_akhir').val();
+                    var search = $('#search').val();
 
-        $.ajax({
-            type: "POST",
-            url: "{{ route('filterData4') }}",
-            data: {
-                "_token": "{{ csrf_token() }}",
-                tgl_awal: tgl_awal,
-                tgl_akhir: tgl_akhir,
-                search: search,
-            },
-            success: function(response) {
-                console.log(response);
-                // Kosongkan tbody
-                $('#trxTable tbody').empty();
-                // Cek jika transaksi tidak kosong
-                if (response.transaksis.length > 0) {
-                    // Loop melalui setiap transaksi dalam respon
-                    $.each(response.transaksis, function(index, transaction) {
-                        // Bangun baris HTML dan tambahkan ke tbody
-                        var row = '<tr class="align-middle">' +
-                            '<td>' + (index + 1) + '</td>' +
-                            '<td>' + transaction.nama_customer + '</td>' +
-                            '<td>' + transaction.total_qty + '</td>' +
-                            '<td>' + transaction.total_harga + '</td>' +
-                            '<td>' + transaction.ekspedisi + '</td>' +
-                            '<td>' + ` <select name="status" class="text-bg-success" id="status" onchange="updateTransaction('${transaction.url_update}', this)">
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ route('filterData4') }}",
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            tgl_awal: tgl_awal,
+                            tgl_akhir: tgl_akhir,
+                            search: search,
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            // Kosongkan tbody
+                            $('#trxTable tbody').empty();
+                            // Cek jika transaksi tidak kosong
+                            if (response.transaksis.length > 0) {
+                                // Loop melalui setiap transaksi dalam respon
+                                $.each(response.transaksis, function(index, transaction) {
+                                    // Format total_harga menggunakan fungsi toLocaleString
+                                    var formattedTotalHarga = parseFloat(transaction
+                                        .total_harga).toLocaleString('id-ID', {
+                                        style: 'currency',
+                                        currency: 'IDR'
+                                    });
+
+                                    // Bangun baris HTML dan tambahkan ke tbody
+                                    var row = '<tr class="align-middle">' +
+                                        '<td>' + (index + 1) + '</td>' +
+                                        '<td>' + transaction.nama_customer + '</td>' +
+                                        '<td>' + transaction.total_qty + '</td>' +
+                                        '<td>' + formattedTotalHarga + '</td>' +
+                                        '<td>' + transaction.ekspedisi + '</td>' +
+                                        '<td>' + ` <select name="status" class="text-bg-success" id="status" onchange="updateTransaction('${transaction.url_update}', this)">
                         <option value="Send" ${transaction.status == 'Send' ? 'selected' : ''} >Send</option>
                         <option value="Paid" ${transaction.status == 'Paid' ? 'selected' : ''} >Paid</option>
                       </select>` + '</td>' +
-                            '</tr>';
+                                        '</tr>';
 
-                        $('#trxTable tbody').append(row);
+                                    $('#trxTable tbody').append(row);
+                                });
+                            } else {
+                                // Jika transaksi kosong, tambahkan baris pesan
+                                var emptyRow =
+                                    '<tr class="text-center"><td colspan="6">Belum ada transaksi</td></tr>';
+                                $('#trxTable tbody').append(emptyRow);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                        }
                     });
-                } else {
-                    // Jika transaksi kosong, tambahkan baris pesan
-                    var emptyRow =
-                        '<tr class="text-center"><td colspan="6">Belum ada transaksi</td></tr>';
-                    $('#trxTable tbody').append(emptyRow);
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-            }
-        });
-    });
-});
-
+                });
+            });
         </script>
     @endsection

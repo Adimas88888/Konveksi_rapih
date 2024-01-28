@@ -42,13 +42,13 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Total Nominal Transaksi</h5>
-                        <p class="card-text" id="nominalTransaksiWidget">{{ $total_transaksi }}</p>
+                        <p class="card-text" id="nominalTransaksiWidget">
+                            Rp {{ number_format($total_transaksi) }}
+                        </p>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-
+            
     <div class="container-fluid mt-4">
         <!-- Chart Widget for Barang -->
         <h5>BARANG</h5>

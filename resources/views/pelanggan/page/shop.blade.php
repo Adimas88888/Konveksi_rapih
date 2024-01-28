@@ -112,7 +112,7 @@
                         </div>
                         <div class="card-footer d-flex flex-row justify-content-between align-items-center">
                             <p class="m-0" style="font-size: 16px; font-weight: 600;">
-                                <span>IDR</span>{{ number_format($x->harga) }}
+                                <span>Rp</span>{{ number_format($x->harga) }}
                             </p>
                             @auth
                                 <form action="{{ route('addTocart') }}" method="POST">

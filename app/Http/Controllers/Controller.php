@@ -23,8 +23,11 @@ class Controller extends BaseController
     {
         $best = Product::where('quantity_out', '>=', 5)
             ->where('quantity', '>', 0)
+            ->orderBy('created_at', 'desc')
             ->get();
-        $data = Product::where('quantity', '>', 0)->paginate(10);
+        $data = Product::where('quantity', '>', 0)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);        
         $countKeranjang = auth()->user() ? keranjangs::where('idUser', auth()->user()->id)->where('status', 0)->count() : 0;
 
         return view('pelanggan.page.home', [
@@ -37,12 +40,13 @@ class Controller extends BaseController
 
     public function shop(Request $request)
     {
+        $countKeranjang = auth()->user() ? keranjangs::where('idUser', auth()->user()->id)->where('status', 0)->count() : 0;
         $data = Product::when($request->type && $request->category, function ($query) use ($request) {
             return $query->where('type', $request->type)->where('kategory', $request->category);
         })
             ->where('quantity', '>', 0)
+            ->orderBy('created_at', 'desc')
             ->paginate(8);
-        $countKeranjang = auth()->user() ? keranjangs::where('idUser', auth()->user()->id)->where('status', 0)->count() : 0;
 
         return view('pelanggan.page.shop', [
             'title' => 'Shop',

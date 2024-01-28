@@ -49,11 +49,11 @@
                                         style="width:100px;">
 
                                 </td>
-                                <td>{{ $item->created_at }}</td>
+                                <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td> 
                                 <td>{{ $item->sku }}</td>
                                 <td>{{ $item->nama_product }}</td>
                                 <td>{{ $item->type }}</td>
-                                <td>{{ $item->harga }}</td>
+                                <td> Rp {{ number_format ($item->harga) }}</td>
                                 <td>{{ $item->quantity }}</td>
 
                                 <td>
@@ -165,64 +165,71 @@
             });
             
             $(document).ready(function() {
-                $('#filter_tgl').click(function() {
-                    var tgl_awal = $('#tgl_awal').val();
-                    var tgl_akhir = $('#tgl_akhir').val();
-                    var search = $('#search').val();
+    $('#filter_tgl').click(function() {
+        var tgl_awal = $('#tgl_awal').val();
+        var tgl_akhir = $('#tgl_akhir').val();
+        var search = $('#search').val();
 
-                    $.ajax({
-                        type: "GET",
-                        url: "{{ route('filterData') }}",
-                        data: {
-                            tgl_awal: tgl_awal,
-                            tgl_akhir: tgl_akhir,
-                            search: search,
-                        },
-                        success: function(response) {
-                            // Kosongkan tbody
-                            $('tbody').empty();
+        $.ajax({
+            type: "GET",
+            url: "{{ route('filterData') }}",
+            data: {
+                tgl_awal: tgl_awal,
+                tgl_akhir: tgl_akhir,
+                search: search,
+            },
+            success: function(response) {
+                // Kosongkan tbody
+                $('tbody').empty();
 
-                            // Cek jika products tidak kosong
-                            if (response.products.length > 0) {
-                                // Loop melalui setiap product dalam respon
-                                $.each(response.products, function(index, product) {
-                                    // Bangun baris HTML dan tambahkan ke tbody
-                                    var row = '<tr class="align-middle">' +
-                                        '<td>' + (index + 1) + '</td>' +
-                                        '<td><img src="{{ asset('storage/product') }}/' +
-                                        product.foto +
-                                        '" alt="Gambar Product" style="width:100px;"></td>' +
-                                        '<td>' + product.created_at + '</td>' +
-                                        '<td>' + product.sku + '</td>' +
-                                        '<td>' + product.nama_product + '</td>' +
-                                        '<td>' + product.type + '</td>' +
-                                        '<td>' + product.harga + '</td>' +
-                                        '<td>' + product.quantity + '</td>' +
-                                        '<td>' +
-                                        '<button class="btn btn-info editModal" data-id="' +
-                                        product.id +
-                                        '"><i class="fas fa-edit"></i></button>' +
-                                        '<button class="btn btn-danger deleteData" data-id="' +
-                                        product.id +
-                                        '"><i class="fas fa-trash-alt"></i></button>' +
-                                        '</td>' +
-                                        '</tr>';
+                // Cek jika products tidak kosong
+                if (response.products.length > 0) {
+                    // Loop melalui setiap product dalam respon
+                    $.each(response.products, function(index, product) {
+                        // Format tanggal menggunakan fungsi Intl.DateTimeFormat
+                        var formattedDate = new Intl.DateTimeFormat('id-ID').format(new Date(product.created_at));
 
-                                    $('tbody').append(row);
-                                });
-                            } else {
-                                // Jika products kosong, tambahkan baris pesan
-                                var emptyRow =
-                                    '<tr class="text-center"><td colspan="9">Belum ada barang</td></tr>';
-                                $('tbody').append(emptyRow);
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            console.error(xhr.responseText);
-                        }
+                        // Format harga menggunakan fungsi toLocaleString
+                        var formattedHarga = parseFloat(product.harga).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' });
+
+                        // Bangun baris HTML dan tambahkan ke tbody
+                        var row = '<tr class="align-middle">' +
+                            '<td>' + (index + 1) + '</td>' +
+                            '<td><img src="{{ asset('storage/product') }}/' +
+                            product.foto +
+                            '" alt="Gambar Product" style="width:100px;"></td>' +
+                            '<td>' + formattedDate + '</td>' +
+                            '<td>' + product.sku + '</td>' +
+                            '<td>' + product.nama_product + '</td>' +
+                            '<td>' + product.type + '</td>' +
+                            '<td>' + formattedHarga + '</td>' +
+                            '<td>' + product.quantity + '</td>' +
+                            '<td>' +
+                            '<button class="btn btn-info editModal" data-id="' +
+                            product.id +
+                            '"><i class="fas fa-edit"></i></button>' +
+                            '<button class="btn btn-danger deleteData" data-id="' +
+                            product.id +
+                            '"><i class="fas fa-trash-alt"></i></button>' +
+                            '</td>' +
+                            '</tr>';
+
+                        $('tbody').append(row);
                     });
-                });
-            });
+                } else {
+                    // Jika products kosong, tambahkan baris pesan
+                    var emptyRow =
+                        '<tr class="text-center"><td colspan="9">Belum ada barang</td></tr>';
+                    $('tbody').append(emptyRow);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    });
+});
+
         </script>
 
     @endsection
