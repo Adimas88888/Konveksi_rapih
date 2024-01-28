@@ -13,8 +13,8 @@ class CheckoutController extends Controller
 {
     public function checkout(Request $request)
     {
-        info($request->all());
-        $keranjang = keranjangs::where('idUser', auth()->user()->id);
+        $keranjang = keranjangs::where('idUser', auth()->user()->id)
+            ->where('status', 0);
         $countKeranjang = $keranjang->count();
         $code = transaksi::count();
         $codeTransaksi = date('Ymd').$code + 1;
