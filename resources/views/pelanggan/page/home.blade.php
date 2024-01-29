@@ -38,14 +38,14 @@
                             <span>Rp</span>{{ number_format($b->harga) }}
                         </p>
                         @auth
-                            <form action="{{ route('addTocart') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="product_id" value="{{ $b->id }}">
-                                <button type="submit" class="btn btn-outline"
-                                    style="font-size: 24px; --bs-btn-color: #35155C; --bs-btn-border-color: #35155D; --bs-btn-hover-color: #fff; --bs-btn-hover-bg: #35155D; --bs-btn-hover-border-color: #35155D; --bs-btn-focus-shadow-rgb: 13,110,253; --bs-btn-active-color: #fff; --bs-btn-active-bg: #351552; --bs-btn-active-border-color: #35155D; --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125); --bs-btn-disabled-color: #35155D; --bs-btn-disabled-bg: transparent; --bs-btn-disabled-border-color: #35155D; --bs-gradient: none;">
-                                    <i class="fa-solid fa-cart-plus"></i>
-                                </button>
-                            </form>
+                        <form action="{{ route('addTocart') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="product_id" value="{{ $b->id }}">
+                            <button type="submit" class="btn btn-outline"
+                                style="font-size: 24px; --bs-btn-color: #35155C; --bs-btn-border-color: #35155D; --bs-btn-hover-color: #fff; --bs-btn-hover-bg: #35155D; --bs-btn-hover-border-color: #35155D; --bs-btn-focus-shadow-rgb: 13,110,253; --bs-btn-active-color: #fff; --bs-btn-active-bg: #351552; --bs-btn-active-border-color: #35155D; --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125); --bs-btn-disabled-color: #35155D; --bs-btn-disabled-bg: transparent; --bs-btn-disabled-border-color: #35155D; --bs-gradient: none;">
+                                <i class="fa-solid fa-cart-plus"></i>
+                            </button>
+                        </form>
                         @endauth
                         @guest
                             <a href="{{ route('login') }}" class="btn btn-outline"

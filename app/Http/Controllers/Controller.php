@@ -20,17 +20,27 @@ class Controller extends BaseController
 
     public function index()
     {
-        $outFilters = [];
+        // $outFilters = [];
 
-        $products = Product::get();
+        // $products = Product::get();
 
-        foreach ($products as $product) {
-            if (modelDetailTransaksi::where('id_barang', $product->id)->sum('qty') >= 5) {
-                $outFilters[] = $product->id;
-            }
-        }
+        // foreach ($products as $product) {
+        //     if (modelDetailTransaksi::where('id_barang', $product->id)->sum('qty') >= 5) {
+        //         $outFilters[] = $product->id;
+        //     }
+        // }
 
-        $best = Product::whereIn('id', $outFilters)->get();
+        // $best = Product::whereIn('id', $outFilters)
+        // ->orderBy('created_at', 'desc')
+        // ->take(3)
+        // ->get();
+        $best = Product::where('quantity', '>', 5)
+        ->where('quantity_out', '>', 0)
+        ->orderBy('quantity_out', 'desc')
+        ->take(5)
+        ->get();
+    
+    
         $data = Product::where('quantity', '>', 0)
             ->orderBy('created_at', 'desc')
             ->paginate(10);

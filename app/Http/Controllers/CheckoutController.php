@@ -41,9 +41,7 @@ class CheckoutController extends Controller
     public function prosesCheckout()
     {
         $keranjang = keranjangs::where('idUser', auth()->user()->id)->get();
-        // $data = $request->all();
-        // $code = transaksi::count();
-        // $codeTransaksi = date('Ymd').$code + 1;
+      
 
         Alert::toast('Checkout Berhasil', 'success');
 
@@ -69,7 +67,7 @@ class CheckoutController extends Controller
 
         $dbTransaksi->save();
 
-        $dataCart = keranjangs::where('idUser', auth()->user()->id)->get();
+        $dataCart = keranjangs::where('status', 0)->where('idUser', auth()->user()->id)->get();
         foreach ($dataCart as $item) {
             $detailtransaksi = new modelDetailTransaksi();
             $filedDetail = [

@@ -1,4 +1,6 @@
 $(document).ready(function () {
+
+
     $(".plus").click(function (e) {
         e.preventDefault();
         var card = $(this).closest(".card-body");
@@ -7,7 +9,11 @@ $(document).ready(function () {
         var url = card.find("#harga").attr('data-url');
         var csrf = card.find("#harga").attr('data-csrf');
 
-        var tambah = parseInt(qty) + 1;
+        let tambah = parseInt(qty) + 1;
+        let cek = checkQuantity(tambah);
+        if (!cek) {
+            tambah = parseInt(qty)
+        }
         card.find("#qty").val(tambah);
 
         var subtotal = parseInt(harga) * parseInt(tambah);
@@ -40,6 +46,27 @@ $(document).ready(function () {
             card.find(".minus").prop("disabled", true);
         }
     });
+    $("#qty").change(function () {
+        var card = $(this).closest(".card-body");
+        var harga = card.find("#harga").val();
+        var qty = $(this).val();
+        var url = card.find("#harga").attr('data-url');
+        var csrf = card.find("#harga").attr('data-csrf');
+
+        // Perbarui nilai subtotal
+        var subtotal = parseInt(harga) * parseInt(qty);
+        card.find(".total").val(subtotal);
+
+        // Perbarui jumlah barang dengan Ajax
+        updateQuantityAjax(url, qty, csrf);
+
+        // Aktifkan/tidakaktifkan tombol 'minus' berdasarkan nilai qty
+        if (qty <= 1) {
+            card.find(".minus").prop("disabled", true);
+        } else {
+            card.find(".minus").prop("disabled", false);
+        }
+    });
 
     $(".card-body").each(function () {
         var card = $(this);
@@ -49,7 +76,7 @@ $(document).ready(function () {
         card.find("#total").val(total);
     });
 
-    function updateQuantityAjax (url, quantity, csrf) {
+    function updateQuantityAjax(url, quantity, csrf) {
         $.ajax({
             url: url,
             data: {
