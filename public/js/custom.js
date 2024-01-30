@@ -10,13 +10,18 @@ $(document).ready(function () {
         var csrf = card.find("#harga").attr('data-csrf');
         var max = card.find("#qty").attr('max');
 
-        let tambah = parseInt(qty) + 1;
-        card.find("#qty").val(tambah);
+        if (parseInt(qty) + 1 > parseInt(max)) {
+            alert('Jumlah barang tidak boleh melebihi stok.');
+            card.find('#qty').val(max);
+            var qty = card.find("#qty").val();
+        } else {
+            console.log('masuk sana');
+            updateQuantityAjax(url, qty, $(this).attr('data-csrf'));
+            card.find("#qty").val(parseInt(qty) + 1);
+        }
 
-        var subtotal = parseInt(harga) * parseInt(tambah);
+        var subtotal = parseInt(harga) * parseInt(qty);
         card.find(".total").val(subtotal);
-
-        updateQuantityAjax(url, tambah, csrf);
 
         if (qty > 0) {
             card.find(".minus").prop("disabled", false);
