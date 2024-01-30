@@ -11,10 +11,6 @@ $(document).ready(function () {
         var max = card.find("#qty").attr('max');
 
         let tambah = parseInt(qty) + 1;
-        if (qty > card.find("#qty").attr('max')) {
-            alert('Jumlah barang tidak boleh melebihi stok.');
-            card.find('#qty').val(max);
-        }
         card.find("#qty").val(tambah);
 
         var subtotal = parseInt(harga) * parseInt(tambah);
@@ -53,15 +49,19 @@ $(document).ready(function () {
         var harga = card.find("#harga").val();
         var url = card.find("#harga").attr('data-url');
         var qty = card.find("#qty").val();
-        var subtotal = parseInt(harga) * parseInt(qty);
-        card.find(".total").val(subtotal);
+        var max = card.find("#qty").attr('max');
 
-        if (qty > card.find("#qty").attr('max')) {
+        if (parseInt(qty) > parseInt(max)) {
             alert('Jumlah barang tidak boleh melebihi stok.');
-            card.find('#qty').val(card.find("#qty").attr('max'));
+            card.find('#qty').val(max);
+            var qty = card.find("#qty").val();
+        } else {
+            console.log('masuk sana');
+            updateQuantityAjax(url, qty, $(this).attr('data-csrf'));
         }
 
-        updateQuantityAjax(url, qty, $(this).attr('data-csrf'));
+        var subtotal = parseInt(harga) * parseInt(qty);
+        card.find(".total").val(subtotal);
     });
 
     $(".card-body").each(function () {
