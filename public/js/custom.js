@@ -8,11 +8,12 @@ $(document).ready(function () {
         var qty = card.find("#qty").val();
         var url = card.find("#harga").attr('data-url');
         var csrf = card.find("#harga").attr('data-csrf');
+        var max = card.find("#qty").attr('max');
 
         let tambah = parseInt(qty) + 1;
-        let cek = checkQuantity(tambah);
-        if (!cek) {
-            tambah = parseInt(qty)
+        if (qty > card.find("#qty").attr('max')) {
+            alert('Jumlah barang tidak boleh melebihi stok.');
+            card.find('#qty').val(max);
         }
         card.find("#qty").val(tambah);
 
@@ -46,26 +47,21 @@ $(document).ready(function () {
             card.find(".minus").prop("disabled", true);
         }
     });
-    $("#qty").change(function () {
+
+    $('#qty').on('input', function (e) {
         var card = $(this).closest(".card-body");
         var harga = card.find("#harga").val();
-        var qty = $(this).val();
         var url = card.find("#harga").attr('data-url');
-        var csrf = card.find("#harga").attr('data-csrf');
-
-        // Perbarui nilai subtotal
+        var qty = card.find("#qty").val();
         var subtotal = parseInt(harga) * parseInt(qty);
         card.find(".total").val(subtotal);
 
-        // Perbarui jumlah barang dengan Ajax
-        updateQuantityAjax(url, qty, csrf);
-
-        // Aktifkan/tidakaktifkan tombol 'minus' berdasarkan nilai qty
-        if (qty <= 1) {
-            card.find(".minus").prop("disabled", true);
-        } else {
-            card.find(".minus").prop("disabled", false);
+        if (qty > card.find("#qty").attr('max')) {
+            alert('Jumlah barang tidak boleh melebihi stok.');
+            card.find('#qty').val(card.find("#qty").attr('max'));
         }
+
+        updateQuantityAjax(url, qty, $(this).attr('data-csrf'));
     });
 
     $(".card-body").each(function () {
@@ -76,7 +72,7 @@ $(document).ready(function () {
         card.find("#total").val(total);
     });
 
-    function updateQuantityAjax(url, quantity, csrf) {
+    function updateQuantityAjax (url, quantity, csrf) {
         $.ajax({
             url: url,
             data: {

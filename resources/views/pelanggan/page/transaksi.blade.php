@@ -37,8 +37,7 @@
                                     <button class="rounded-start bg-secondary p-2 border border-0 plus"
                                         id="plus">+</button>
                                     <input type="number" name="qty" class="form-control w-50 text-center"
-                                        id="qty" value="{{ $item->qty }}" 
-                                        max="{{ $item->product->quantity }}" onchange="checkQuantity()">
+                                        id="qty" value="{{ $item->qty }}" max="{{ $item->product->quantity }}">
 
                                     {{-- <input type="number" name="qty" class="form-control w-50 text-center"
                                         id="qty" name="qty" value="{{ $item->qty }}" disabled max="{{ $item->product->quantity }}"> --}}
@@ -66,28 +65,6 @@
             </div>
         @endforeach
         <script>
-            function checkQuantity(tambah) {
-                // Dapatkan elemen input
-                var qtyInput = document.getElementById('qty');
-
-                // Dapatkan nilai maksimum dari atribut max
-                var maxQuantity = parseInt(qtyInput.getAttribute('max'));
-
-                // Dapatkan nilai saat ini
-                var currentQuantity = parseInt(qtyInput.value);
-
-                // Periksa apakah nilai saat ini melebihi nilai maksimum
-                if (tambah > maxQuantity) {
-                    qtyInput.value = maxQuantity;
-                    //   console.log(qtyInput.value);
-                    alert('Nilai melebihi batas maksimum!');
-                    return false;
-                    // Reset nilai input ke nilai maksimum jika diperlukan
-                }
-                return true;
-            }
-
-
             // Menambahkan event listener untuk tombol "Delete"
             let tombolDelete = document.querySelectorAll('.delete-btn');
             tombolDelete.forEach(button => {
